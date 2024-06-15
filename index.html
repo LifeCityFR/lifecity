@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>LIFECITY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        nav {
+            background-color: #111;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffc107;
+        }
+
+        header {
+            background-image: url('https://policeroleplay.community/_next/static/media/splash-optimised.3a1b2560.gif');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 100px 20px;
+            color: #fff;
+        }
+        header h1 {
+            font-size: 40px;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: fadeInDown 2s;
+align: center;
+        }
+        header p {
+            font-size: 20px;
+            margin: 20px 0;
+            animation: fadeInUp 2s;
+        }
+        header button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            animation: bounceIn 2s;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s;
+        }
+        .section h2 {
+            margin-top: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .section h2 i {
+            margin-right: 10px;
+        }
+        .announcement, .job {
+            margin: 10px 0;
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            align-items: center;
+            animation: fadeInUp 1s;
+        }
+        .announcement img, .job img {
+            max-width: 100px;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+        .announcement .content, .job .content {
+            display: flex;
+            align-items: center;
+        }
+        .announcement .text, .job .text {
+            flex: 1;
+        }
+        .link-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            text-align: center;
+            background-color: #ffc107;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            animation: fadeIn 2s;
+        }
+        .link-button i {
+            margin-right: 10px;
+        }
+        footer {
+            background-color: #111;
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            border-top: 1px solid #444;
+        }
+        footer p {
+            margin: 0;
+        }
+        footer .footer-links {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        footer .footer-links a {
+            margin: 10px 0;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        footer .footer-links a:hover {
+            color: #ffc107;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes bounceIn {
+            from, 20%, 40%, 60%, 80%, to {
+                animation-timing-function: cubic-bezier(.215,.61,.355,1);
+            }
+            0% {
+                opacity: 0;
+                transform: scale3d(.3,.3,.3);
+            }
+            20% {
+                transform: scale3d(1.1,1.1,1.1);
+            }
+            40% {
+                transform: scale3d(.9,.9,.9);
+            }
+            60% {
+                opacity: 1;
+                transform: scale3d(1.03,1.03,1.03);
+            }
+            80% {
+                transform: scale3d(.97,.97,.97);
+            }
+            to {
+                opacity: 1;
+                transform: scale3d(1,1,1);
+            }
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+        @media (max-width: 768px) {
+            nav .menu {
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav .menu ul {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav .menu ul li {
+                margin: 10px 0;
+            }
+            nav .menu ul li ul {
+                position: static;
+            }
+            nav .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">LIFECITY</div>
+</nav>
+
+    <header>
+        <h1>BIENVENUE SUR LE SITE DU GOUVERNEMENT DE LIFECITY</h1>
+        <p>Découvrez toutes les informations et services disponibles pour les citoyens de LifeCity.</p>
+        <button onclick="window.location.href='https://discord.gg/Dx9FJVyhT6'">
+            <i class="fab fa-discord"></i> Rejoindre notre serveur Discord
+        </button>
+    </header>
+
+    <div class="container">
+        <div class="section" id="government-announcements">
+            <h2><i class="fas fa-bullhorn"></i> ANNONCES GOUVERNEMENTALES</h2>
+            <p>Retrouvez ici toutes les annonces officielles du gouvernement de LifeCity.</p>
+            <div class="announcement">
+                <div class="content">
+                    <img src="announcement-image.jpg" alt="Announcement">
+                    <div class="text">
+                        <h3>EXEMPLE D'ANNONCE 1</h3>
+                        <p>Contenu de l'annonce 1...</p>
+                        <small>Écrit par: John Doe</small>
+                    </div>
+                </div>
+            </div>
+            <div class="announcement">
+                <div class="content">
+                    <img src="announcement-image.jpg" alt="Announcement">
+                    <div class="text">
+                        <h3>EXEMPLE D'ANNONCE 2</h3>
+                        <p>Contenu de l'annonce 2...</p>
+                        <small>Écrit par: Jane Smith</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="mayor-announcements">
+            <h2><i class="fas fa-university"></i> ANNONCES DE LA MAIRIE</h2>
+            <p>Retrouvez ici toutes les annonces officielles de la mairie de LifeCity.</p>
+            <div class="announcement">
+                <div class="content">
+                    <img src="announcement-image.jpg" alt="Announcement">
+                    <div class="text">
+                        <h3>EXEMPLE D'ANNONCE MAIRIE 1</h3>
+                        <p>Contenu de l'annonce mairie 1...</p>
+                        <small>Écrit par: Alice Cooper</small>
+                    </div>
+                </div>
+            </div>
+            <div class="announcement">
+                <div class="content">
+                    <img src="announcement-image.jpg" alt="Announcement">
+                    <div class="text">
+                        <h3>EXEMPLE D'ANNONCE MAIRIE 2</h3>
+                        <p>Contenu de l'annonce mairie 2...</p>
+                        <small>Écrit par: Bob Marley</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="job-offers">
+            <h2><i class="fas fa-briefcase"></i> OFFRES D'EMPLOI</h2>
+            <p>Découvrez les différentes opportunités d'emploi disponibles au sein de LifeCity.</p>
+            <div class="job">
+                <div class="content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Seal_of_the_Los_Angeles_Police_Department.png" alt="Job">
+                    <div class="text">
+                        <h3>CHEF DE LA POLICE</h3>
+                        <p>Au cœur de la sécurité de LifeCity, le chef de la police dirige une force dévouée chargée de maintenir l’ordre public, d’assurer la sécurité des citoyens et de faire respecter les lois de la ville. Avec une équipe professionnelle, il coordonne les patrouilles, enquêtes sur les crimes et interactions avec la communauté pour garantir un environnement sûr et paisible pour tous.</p>
+                        <a href="apply-police-chief.html" class="link-button"><i class="fas fa-check-circle"></i> Postuler</a>
+                    </div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Badge_of_the_Sheriff_of_Los_Angeles_County.png" alt="Job">
+                    <div class="text">
+                        <h3>SHÉRIFF</h3>
+                        <p>En tant que gardien de l’intégrité et de la sûreté du comté de LifeCity, le shérif en chef exerce une autorité essentielle sur les forces de l’ordre locales. Responsable de la sécurité des tribunaux, de l’exécution des mandats judiciaires et de la gestion des prisons, il assure une justice équitable et efficace dans tout le comté.</p>
+                        <a href="apply-sheriff.html" class="link-button"><i class="fas fa-check-circle"></i> Postuler</a>
+                    </div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/United_States_Department_of_Transportation_seal.svg/1200px-United_States_Department_of_Transportation_seal.svg.png" alt="Job">
+                    <div class="text">
+                        <h3>DIRECTEUR DU DÉPARTEMENT DES TRANSPORTS</h3>
+                        <p>Pour maintenir LifeCity en mouvement, le directeur des départements du transport orchestre un réseau vital d’infrastructures. De la gestion des routes aux ports en passant par les aéroports, il veille à ce que les citoyens et les marchandises circulent en toute sécurité et efficacité, contribuant ainsi à la prospérité de la ville.</p>
+                        <a href="apply-transport-director.html" class="link-button"><i class="fas fa-check-circle"></i> Postuler</a>
+                    </div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="content">
+                    <img src="https://www.lafd.org/profiles/lafd/themes/lafd_org/logo.png" alt="Job">
+                    <div class="text">
+                        <h3>DIRECTEUR DES SERVICES DE SECOURS</h3>
+                        <p>Face aux défis des catastrophes naturelles et des urgences, le directeur du département des secours de LifeCity est en première ligne pour protéger les habitants. En supervisant les équipes de secours, en développant des plans d’intervention et en coordonnant les opérations lors des crises, il incarne l’esprit de solidarité et de préparation de la ville.</p>
+                        <a href="apply-rescue-director.html" class="link-button"><i class="fas fa-check-circle"></i> Postuler</a>
+                    </div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Seal_of_Los_Angeles.svg/1200px-Seal_of_Los_Angeles.svg.png" alt="Job">
+                    <div class="text">
+                        <h3>MAIRE</h3>
+                        <p>Au sommet de l’administration de LifeCity, le maire incarne le leadership et la vision pour l’avenir de la ville. En travaillant avec le conseil municipal, il guide la gestion des ressources, le développement urbain et la prestation des services municipaux, s’efforçant de faire de LifeCity un endroit où chacun peut prospérer et s’épanouir.</p>
+                        <a href="" class="link-button"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Ce poste n'est actuellement pas disponible. <strong>Prochaines élections : Septembre 2024</strong></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-id-card"></i> DÉCLARER VOTRE IDENTITÉ</h2>
+            <p>Enregistrez votre identité auprès du gouvernement de LifeCity.</p>
+            <a href="declare-identity.html" class="link-button"><i class="fas fa-id-card"></i> Déclarer</a>
+        </div>
+
+
+        <div class="section">
+            <h2><i class="fas fa-building"></i> DÉCLARER VOTRE ENTREPRISE</h2>
+            <p>Enregistrez votre entreprise auprès du gouvernement de LifeCity.</p>
+            <a href="declare-business.html" class="link-button"><i class="fas fa-building"></i> Déclarer</a>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-user-secret"></i> DÉCLARER VOTRE MAFIA</h2>
+            <p>Enregistrez votre organisation auprès du gouvernement de LifeCity.</p>
+            <a href="declare-mafia.html" class="link-button"><i class="fas fa-user-secret"></i> Déclarer</a>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> SIGNALER UN JOUEUR</h2>
+            <p>Signalez les joueurs qui ne respectent pas les règles du serveur.</p>
+            <a href="report-player.html" class="link-button"><i class="fas fa-exclamation-triangle"></i> Signaler</a>
+        </div>
+</div>
+
+
+    <footer>
+        <p>&copy; 2024 LIFECITY. Tous droits réservés.</p>
+        <div class="footer-links">
+            <a href="#government-announcements"><i class="fas fa-bullhorn"></i> Annonces</a>
+            <a href="#mayor-announcements"><i class="fas fa-university"></i> Mairie</a>
+            <a href="#job-offers"><i class="fas fa-briefcase"></i> Emplois</a>
+            <a href="declare-business.html"><i class="fas fa-building"></i> Entreprise</a>
+            <a href="declare-mafia.html"><i class="fas fa-user-secret"></i> Mafia</a>
+            <a href="report-player.html"><i class="fas fa-exclamation-triangle"></i> Joueur</a>
+            <a href="declare-identity.html"><i class="fas fa-id-card"></i> Identité</a>
+            <a href="https://discord.gg/Dx9FJVyhT6"><i class="fab fa-discord"></i> Discord</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            const icon = document.querySelector('.menu-toggle i');
+            if (menu.style.display === 'flex') {
+                menu.style.animation = 'slideOut 0.3s forwards';
+                setTimeout(() => menu.style.display = 'none', 300);
+                icon.className = 'fas fa-bars';
+            } else {
+                menu.style.display = 'flex';
+                menu.style.animation = 'slideIn 0.3s forwards';
+                icon.className = 'fas fa-times';
+            }
+        }
+    </script>
+</body>
+</html>
