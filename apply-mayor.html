@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const formSection = document.querySelector(".form-section");
     const notificationSection = document.createElement("div");
-    const START_DATE = new Date("2024-06-16T22:30:00Z").getTime();
+    const START_DATE = new Date("2024-06-16T20:30:00Z").getTime();
     const ONE_TIME_SUBMISSION_KEY = "mayorFormSubmitted";
 
     function updateSection() {
@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
                 <p>Le formulaire sera disponible à partir du 15 juillet à minuit.</p>
                 <p class="countdown">Décompte :</p>
-                <p id="timer" class="code"><strong>${formatTime(timeUntilStart)}</strong></p>
+                <p id="timer" class="code">${formatTime(timeUntilStart)}</p>
             `;
             document.querySelector(".container").appendChild(notificationSection);
             startTimer(timeUntilStart);
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearInterval(interval);
                 updateSection();
             } else {
-                document.getElementById("timer").textContent = `<strong>${formatTime(timer)}</strong>`;
+                document.getElementById("timer").textContent = `${formatTime(timer)}`;
                 timer -= 1000;
             }
         }, 1000);
