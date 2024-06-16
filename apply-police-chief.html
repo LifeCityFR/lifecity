@@ -235,12 +235,10 @@ footer {
         }
     </style>
     <script>
-        
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const formSection = document.querySelector(".form-section");
     const notificationSection = document.createElement("div");
-    const timerSection = document.createElement("div");
     const TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000;
 
     function updateSection() {
@@ -253,21 +251,18 @@ footer {
             if (timeSinceLastSubmission < TWO_WEEKS_IN_MS) {
                 formSection.style.display = "none";
                 const timeRemaining = TWO_WEEKS_IN_MS - timeSinceLastSubmission;
-                startTimer(timeRemaining);
                 notificationSection.className = "section";
                 notificationSection.innerHTML = `
                     <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
                     <p>Vous avez déjà soumis une candidature récemment. Vous pouvez soumettre une nouvelle candidature toutes les deux semaines.</p>
+                    <p id="timer">Vous pourrez renvoyer votre candidature dans ${formatTime(timeRemaining)}</p>
                 `;
                 document.querySelector(".container").appendChild(notificationSection);
-                document.querySelector(".container").appendChild(timerSection);
+                startTimer(timeRemaining);
             } else {
                 formSection.style.display = "block";
                 if (notificationSection.parentNode) {
                     notificationSection.parentNode.removeChild(notificationSection);
-                }
-                if (timerSection.parentNode) {
-                    timerSection.parentNode.removeChild(timerSection);
                 }
             }
         }
@@ -276,23 +271,22 @@ footer {
     function startTimer(duration) {
         let timer = duration;
         const interval = setInterval(() => {
-            const days = Math.floor(timer / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timer % (1000 * 60)) / 1000);
-
-            timerSection.innerHTML = `
-                <h2><i class="fas fa-clock"></i> Temps restant :</h2>
-                <p>${days} jours, ${hours} heures, ${minutes} minutes, ${seconds} secondes</p>
-            `;
-
             if (timer < 0) {
                 clearInterval(interval);
                 updateSection();
             } else {
+                document.getElementById("timer").textContent = `Vous pourrez renvoyer votre candidature dans ${formatTime(timer)}`;
                 timer -= 1000;
             }
         }, 1000);
+    }
+
+    function formatTime(ms) {
+        const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+        return `${days}j ${hours}h ${minutes}m ${seconds}s`;
     }
 
     form.addEventListener("submit", async (event) => {
