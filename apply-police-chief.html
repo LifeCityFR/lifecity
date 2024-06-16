@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 notificationSection.innerHTML = `
                     <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
                     <p>Vous avez déjà soumis une candidature récemment. Vous pouvez soumettre une nouvelle candidature toutes les deux semaines.</p>
-                    <p id="timer" class="countdown">Vous pourrez renvoyer votre candidature dans ${formatTime(timeRemaining)}</p>
+                    <p id="timer" class="countdown"><strong>Vous pourrez renvoyer votre candidature dans ${formatTime(timeRemaining)}</strong></p>
                 `;
                 document.querySelector(".container").appendChild(notificationSection);
                 startTimer(timeRemaining);
