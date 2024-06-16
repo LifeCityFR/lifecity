@@ -235,62 +235,119 @@ footer {
         }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.querySelector("form");
-            form.addEventListener("submit", async (event) => {
-                event.preventDefault();
+       document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
+    const formSection = document.querySelector(".form-section");
+    const notificationSection = document.createElement("div");
+    const TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000;
 
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
+    function updateSection() {
+        const lastSubmission = localStorage.getItem("lastSubmission");
+        if (lastSubmission) {
+            const lastSubmissionDate = new Date(lastSubmission);
+            const now = new Date();
+            const timeSinceLastSubmission = now - lastSubmissionDate;
 
-                const embed = {
-                    title: "Nouvelle Candidature - Directeur des Services de secours",
-                                        color: 2424576,
-                    thumbnail: {
-                                             "url": "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"},
-                    fields: [
-                        { name: "Nom RP", value: data.rp_name, inline: true },
-                        { name: "Prénom RP", value: data.rp_surname, inline: true },
-                        { name: "Pseudonyme Discord", value: data.discord, inline: true },
-                        { name: "Email", value: data.email, inline: true },
-                        { name: "Motivations", value: data.motivations, inline: false },
-                        { name: "Qualifications", value: data.qualifications, inline: false },
-                        { name: "Défauts", value: data.defects, inline: false },
-                        { name: "Qualités", value: data.qualities, inline: false },
-                        { name: "Programme", value: data.program, inline: false }
-                    ]
-                };
-
-                try {
-                    const response = await fetch("https://discord.com/api/webhooks/1251625755105038437/JQjjn7weGM6as0VH8uhyPopK3wqYNMZAOw9vF4829nLFvNGzV3-9P0VymcNHPxYP5NJy", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ embeds: [embed] })
-                    });
-
-                    if (response.ok) {
-                        showNotification("success", "Votre candidature a été envoyée avec succès !");
-                        form.reset();
-                    } else {
-                        showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
-                    }
-                } catch (error) {
-                    showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
+            if (timeSinceLastSubmission < TWO_WEEKS_IN_MS) {
+                formSection.style.display = "none";
+                const timeRemaining = TWO_WEEKS_IN_MS - timeSinceLastSubmission;
+                notificationSection.className = "section";
+                notificationSection.innerHTML = `
+                    <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
+                    <p>Vous avez déjà soumis une candidature récemment. Vous pouvez soumettre une nouvelle candidature toutes les deux semaines.</p>
+                    <p id="timer" class="countdown"><strong>Vous pourrez renvoyer votre candidature dans ${formatTime(timeRemaining)}</strong></p>
+                `;
+                document.querySelector(".container").appendChild(notificationSection);
+                startTimer(timeRemaining);
+            } else {
+                formSection.style.display = "block";
+                if (notificationSection.parentNode) {
+                    notificationSection.parentNode.removeChild(notificationSection);
                 }
+            }
+        }
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        const interval = setInterval(() => {
+            if (timer < 0) {
+                clearInterval(interval);
+                updateSection();
+            } else {
+                document.getElementById("timer").textContent = `Vous pourrez renvoyer votre candidature dans ${formatTime(timer)}`;
+                timer -= 1000;
+            }
+        }, 1000);
+    }
+
+    function formatTime(ms) {
+        const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+        return `${days}j ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        const embed = {
+            title: "Nouvelle Candidature - Directeur des Services de secours",
+            color: 2424576,
+            thumbnail: {
+                url: "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"
+            },
+            fields: [
+                { name: "Nom RP", value: data.rp_name, inline: true },
+                { name: "Prénom RP", value: data.rp_surname, inline: true },
+                { name: "Pseudonyme Discord", value: data.discord, inline: true },
+                { name: "Email", value: data.email, inline: true },
+                { name: "Motivations", value: data.motivations, inline: false },
+                { name: "Qualifications", value: data.qualifications, inline: false },
+                { name: "Défauts", value: data.defects, inline: false },
+                { name: "Qualités", value: data.qualities, inline: false },
+                { name: "Programme", value: data.program, inline: false }
+            ]
+        };
+
+        try {
+            const response = await fetch("https://discord.com/api/webhooks/1251625755105038437/JQjjn7weGM6as0VH8uhyPopK3wqYNMZAOw9vF4829nLFvNGzV3-9P0VymcNHPxYP5NJy", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ embeds: [embed] })
             });
 
-            function showNotification(type, message) {
-                const notification = document.createElement("div");
-                notification.className = `notification ${type}`;
-                notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-                document.body.appendChild(notification);
-                notification.style.display = "flex";
-                setTimeout(() => {
-                    notification.classList.add("animate__animated", "animate__fadeOut");
-                    notification.addEventListener("animationend", () => notification.remove());
-                }, 3000);
+            if (response.ok) {
+                localStorage.setItem("lastSubmission", new Date().toISOString());
+                showNotification("success", "Votre candidature a été envoyée avec succès !");
+                form.reset();
+                updateSection();
+            } else {
+                showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
             }
-        });
+        } catch (error) {
+            showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
+        }
+    });
+
+    function showNotification(type, message) {
+        const notification = document.createElement("div");
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+        document.body.appendChild(notification);
+        notification.style.display = "flex";
+        setTimeout(() => {
+            notification.classList.add("animate__animated", "animate__fadeOut");
+            notification.addEventListener("animationend", () => notification.remove());
+        }, 3000);
+    }
+
+    updateSection();
+});
     </script>
 </head>
 <body>
