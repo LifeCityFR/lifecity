@@ -238,6 +238,11 @@ footer {
             font-weight: bold;
             color: var(--accent-color);
         }
+        .code { font-size: 20px; margin: 20px 0; 
+               padding: 20px; background-color: #333; 
+               border-radius: 5px; 
+               display: inline-block; 
+              } 
     </style>
     <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -258,7 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
             notificationSection.innerHTML = `
                 <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
                 <p>Le formulaire sera disponible à partir du 15 juillet à minuit.</p>
-                <p id="timer">Décompte : ${formatTime(timeUntilStart)}</p>
+                <p class="countdown">Décompte :</p>
+                <p id="timer" class="code">${formatTime(timeUntilStart)}</p>
             `;
             document.querySelector(".container").appendChild(notificationSection);
             startTimer(timeUntilStart);
@@ -372,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="section">
             <h2><i class="fas fa-briefcase"></i> Détails du poste</h2>
             <div class="job-details">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Seal_of_the_Los_Angeles_Police_Department.png" alt="Logo Chef de la Police">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Seal_of_Los_Angeles.svg/1200px-Seal_of_Los_Angeles.svg.png" alt="Logo Chef de la Police">
                 <div class="content">
                     <p><strong>Nom du poste :</strong> Maire</p>
                     <p><strong>Description :</strong> Au sommet de l’administration de LifeCity, le maire incarne le leadership et la vision pour l’avenir de la ville. En travaillant avec le conseil municipal, il guide la gestion des ressources, le développement urbain et la prestation des services municipaux, s’efforçant de faire de LifeCity un endroit où chacun peut prospérer et s’épanouir.</p>
