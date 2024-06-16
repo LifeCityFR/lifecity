@@ -235,8 +235,28 @@ footer {
         }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        
+     document.addEventListener("DOMContentLoaded", () => {
             const form = document.querySelector("form");
+            const formSection = document.querySelector(".form-section");
+            const notificationSection = document.createElement("div");
+            const TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000;
+            const lastSubmission = localStorage.getItem("lastSubmission");
+
+            if (lastSubmission) {
+                const lastSubmissionDate = new Date(lastSubmission);
+                const now = new Date();
+                if (now - lastSubmissionDate < TWO_WEEKS_IN_MS) {
+                    formSection.style.display = "none";
+                    notificationSection.className = "section";
+                    notificationSection.innerHTML = `
+                        <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
+                        <p>Vous avez déjà soumis une candidature récemment. Vous pouvez soumettre une nouvelle candidature toutes les deux semaines.</p>
+                    `;
+                    document.querySelector(".container").appendChild(notificationSection);
+                }
+            }
+
             form.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
@@ -245,9 +265,10 @@ footer {
 
                 const embed = {
                     title: "Nouvelle Candidature - Chef de la Police",
-                                        color: 2424576,
+                    color: 2424576,
                     thumbnail: {
-                                             "url": "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"},
+                        url: "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"
+                    },
                     fields: [
                         { name: "Nom RP", value: data.rp_name, inline: true },
                         { name: "Prénom RP", value: data.rp_surname, inline: true },
@@ -269,6 +290,7 @@ footer {
                     });
 
                     if (response.ok) {
+                        localStorage.setItem("lastSubmission", new Date().toISOString());
                         showNotification("success", "Votre candidature a été envoyée avec succès !");
                         form.reset();
                     } else {
