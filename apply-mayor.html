@@ -265,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p>Le formulaire sera disponible à partir du 15 juillet à minuit.</p>
                 <p class="countdown">Décompte :</p>
                 <p id="timer" class="code">${formatTime(timeUntilStart)}</p>
+          <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
             `;
             document.querySelector(".container").appendChild(notificationSection);
             startTimer(timeUntilStart);
@@ -274,6 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
             notificationSection.innerHTML = `
                 <h2><i class="fas fa-info-circle"></i> Formulaire déjà soumis</h2>
                 <p>Vous avez déjà soumis une candidature pour le poste de Maire.</p>
+          <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
             `;
             document.querySelector(".container").appendChild(notificationSection);
         } else {
