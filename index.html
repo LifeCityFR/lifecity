@@ -408,6 +408,22 @@ align: center;
                 icon.className = 'fas fa-times';
             }
         }
+        <script>
+    function encryptURL(url) {
+        return btoa(url);
+    }
+
+    const encryptedDiscordURL = "aHR0cHM6Ly9kaXNjb3JkLmdnL0R4OUZKVnl0SDY=";
+
+
+    function decryptURL(encryptedURL) {
+        return atob(encryptedURL);
+    }
+
+    function joinDiscord() {
+        const decryptedURL = decryptURL(encryptedDiscordURL);
+        window.location.href = decryptedURL;
+    }
     </script>
 </body>
 </html>
