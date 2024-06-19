@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notifications Locales</title>
+
+  <!-- Balises meta pour l'application web -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Notifications Locales">
+  
+  <!-- Icones et splash screen pour iOS -->
+  <link rel="apple-touch-icon" href="https://via.placeholder.com/180">
+  <link rel="icon" type="image/png" href="https://via.placeholder.com/192x192">
+  <link rel="apple-touch-startup-image" href="https://via.placeholder.com/2048x2732">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -30,8 +41,8 @@
           // Si l'utilisateur a donné la permission, envoyer une notification
           new Notification('Nouvelle Notification!', {
             body: 'Vous avez une nouvelle notification locale!',
-            icon: 'icon.png',  // Assurez-vous d'avoir un fichier icon.png dans le même répertoire
-            badge: 'badge.png' // Assurez-vous d'avoir un fichier badge.png dans le même répertoire
+            icon: 'https://via.placeholder.com/128',  // Lien vers une image d'exemple
+            badge: 'https://via.placeholder.com/128'  // Lien vers une image d'exemple
           });
         }
       });
@@ -45,7 +56,7 @@
           setInterval(function() {
             new Notification('Rappel!', {
               body: 'Ceci est une notification périodique!',
-              icon: 'icon.png'  // Assurez-vous d'avoir un fichier icon.png dans le même répertoire
+              icon: 'https://via.placeholder.com/128'  // Lien vers une image d'exemple
             });
           }, 60000); // Toutes les 60 secondes (60000 ms)
         }
