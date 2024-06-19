@@ -27,230 +27,278 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         :root {
-            --main-bg-color: #000;
-            --main-text-color: #fff;
-            --accent-color: #ffc107;
-            --error-color: #ff4d4d;
-            --success-color: #4caf50;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--main-bg-color);
-            color: var(--main-text-color);
-        }
-        nav {
-            background-color: #111;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        nav .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffc107;
-        }
-        header {
-            background-image: url('https://policeroleplay.community/_next/static/media/splash-optimised.3a1b2560.gif');
-            background-size: cover;
-            background-position: center;
-            text-align: center;
-            padding: 100px 20px;
-            color: #fff;
-        }
-        header h1 {
-            font-size: 40px;
-            margin: 0;
-            font-weight: bold;
-            text-transform: uppercase;
-            animation: fadeInDown 2s;
-align: center;
-        }
-        header p {
-            font-size: 20px;
-            margin: 20px 0;
-            animation: fadeInUp 2s;
-        }
-        .container {
-            padding: 20px;
-        }
-        .section {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #222;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 2s;
-        }
-        .section h2 {
-            margin-top: 0;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .section h2 i {
-            margin-right: 10px;
-        }
-        .section h2 {
-            margin-top: 0;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .job-details {
-            display: flex;
-            align-items: center;
-        }
-        .job-details img {
-            max-width: 100px;
-            margin-right: 20px;
-            border-radius: 10px;
-        }
-        .form-section {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 2s;
-        }
-        .form-section h2 {
-            margin-top: 0;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 5px;
-            border: none;
-            border-radius: 5px;
-            background-color: #444;
-            color: var(--main-text-color);
-        }
-        .form-group textarea {
-            resize: vertical;
-            height: 80px;
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--main-bg-color);
-            color: var(--main-text-color);
-            border: 1px solid;
-            border-radius: 5px;
-            padding: 10px;
-            display: none;
-            align-items: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        .notification.success {
-            border-color: var(--success-color);
-        }
-        .notification.error {
-            border-color: var(--error-color);
-        }
-        .notification i {
-            margin-right: 10px;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes bounceIn {
-            from, 20%, 40%, 60%, 80%, to {
-                animation-timing-function: cubic-bezier(.215,.61,.355,1);
-            }
-            0% {
-                opacity: 0;
-                transform: scale3d(.3,.3,.3);
-            }
-            20% {
-                transform: scale3d(1.1,1.1,1.1);
-            }
-            40% {
-                transform: scale3d(.9,.9,.9);
-            }
-            60% {
-                opacity: 1;
-                transform: scale3d(1.03,1.03,1.03);
-            }
-            80% {
-                transform: scale3d(.97,.97,.97);
-            }
-            to {
-                opacity: 1;
-                transform: scale3d(1,1,1);
-            }
-        }
+    --main-bg-color: #fff;
+    --main-text-color: #000;
+    --accent-color: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+    --error-color: #ff4d4d;
+    --success-color: #4caf50;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+}
+
+nav {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav .logo {
+    font-size: 24px;
+    font-weight: bold;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+header {
+    background-image: url('https://policeroleplay.community/_next/static/media/splash-optimised.3a1b2560.gif');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 100px 20px;
+    color: var(--main-text-color);
+}
+
+header h1 {
+    font-size: 40px;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: fadeInDown 2s;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+}
+
+header p {
+    font-size: 20px;
+    margin: 20px 0;
+    animation: fadeInUp 2s;
+    -webkit-background-clip: text;
+    color: #fff;
+}
+
+.container {
+    padding: 20px;
+}
+
+.section {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 2s;
+}
+
+.section h2 {
+    margin-top: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.section h2 i {
+    margin-right: 10px;
+}
+
+.job-details {
+    display: flex;
+    align-items: center;
+}
+
+.job-details img {
+    max-width: 100px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+
+.form-section {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 2s;
+}
+
+.form-section h2 {
+    margin-top: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: var(--main-text-color);
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification.success {
+    border-color: var(--success-color);
+}
+
+.notification.error {
+    border-color: var(--error-color);
+}
+
+.notification i {
+    margin-right: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+        animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        transform: scale3d(.9, .9, .9);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(.97, .97, .97);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
 footer {
-            background-color: #111;
-            text-align: center;
-            padding: 20px;
-            color: #fff;
-            border-top: 1px solid #444;
-        }
-        footer p {
-            margin: 0;
-        }
-        footer .footer-links {
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        footer .footer-links a {
-            margin: 10px 0;
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-        }
-        footer .footer-links a:hover {
-            color: #ffc107;
-        }
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+    color: var(--main-text-color);
+    border-top: 1px solid #ddd;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer .footer-links {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer .footer-links a {
+    margin: 10px 0;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+footer .footer-links a:hover {
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
 .link-button {
-            display: block;
-            margin: 10px 0;
-            padding: 10px;
-            text-align: center;
-            background-color: #ffc107;
-            color: black;
-            text-decoration: none;
-            border-radius: 5px;
-            animation: fadeIn 2s;
-        }
-        .link-button i {
-            margin-right: 10px;
-        }
-                .countdown {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    animation: fadeIn 2s;
+}
+
+.link-button i {
+    margin-right: 10px;
+}
+
+.countdown {
+    font-size: 18px;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+}
     </style>
     <script>
        document.addEventListener("DOMContentLoaded", () => {
