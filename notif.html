@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications Locales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Notifications Locales en JavaScript</h1>
+  <button id="notifyButton">Envoyer une notification</button>
+  <button id="periodicNotifyButton">Activer les notifications périodiques</button>
+
+  <script>
+    document.getElementById('notifyButton').addEventListener('click', function() {
+      // Demander la permission pour envoyer des notifications
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          // Si l'utilisateur a donné la permission, envoyer une notification
+          new Notification('Nouvelle Notification!', {
+            body: 'Vous avez une nouvelle notification locale!',
+            icon: 'icon.png',  // Assurez-vous d'avoir un fichier icon.png dans le même répertoire
+            badge: 'badge.png' // Assurez-vous d'avoir un fichier badge.png dans le même répertoire
+          });
+        }
+      });
+    });
+
+    document.getElementById('periodicNotifyButton').addEventListener('click', function() {
+      // Demander la permission pour envoyer des notifications
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          // Si l'utilisateur a donné la permission, envoyer des notifications périodiques
+          setInterval(function() {
+            new Notification('Rappel!', {
+              body: 'Ceci est une notification périodique!',
+              icon: 'icon.png'  // Assurez-vous d'avoir un fichier icon.png dans le même répertoire
+            });
+          }, 60000); // Toutes les 60 secondes (60000 ms)
+        }
+      });
+    });
+  </script>
+</body>
+</html>
