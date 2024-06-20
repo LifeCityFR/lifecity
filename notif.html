@@ -1,67 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notifications Locales</title>
-
-  <!-- Balises meta pour l'application web -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Notifications Locales">
-  
-  <!-- Icones et splash screen pour iOS -->
-  <link rel="apple-touch-icon" href="https://via.placeholder.com/180">
-  <link rel="icon" type="image/png" href="https://via.placeholder.com/192x192">
-  <link rel="apple-touch-startup-image" href="https://via.placeholder.com/2048x2732">
-
+  <title>Bannière Élections Municipales</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #000;
+      overflow-x: hidden;
     }
-    button {
+
+    .banner {
+      background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+      padding: 15px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-radius: 10px;
+      margin: 20px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+      opacity: 1;
+    }
+
+    .banner-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .banner-text {
+      margin-right: 20px;
+      flex: 1;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+    }
+
+    .btn-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .link-button {
       padding: 10px 20px;
+      background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
       font-size: 16px;
-      margin: 10px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+
+    .link-button:hover {
+      background: linear-gradient(45deg, #ff69b4, #d63384, #6f42c1);
+      transform: scale(1.05);
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .close-btn, .toggle-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .close-btn:hover, .toggle-btn:hover {
+      color: #ff69b4;
+    }
+
+    .full-text {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .full-text.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .full-text.hide {
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out, display 0s linear 0.5s;
+    }
+
+    @media (max-width: 768px) {
+      .banner-text {
+        font-size: 16px;
+      }
+      .full-text {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Notifications Locales en JavaScript</h1>
-  <button id="notifyButton">Envoyer une notification</button>
-  <button id="periodicNotifyButton">Activer les notifications périodiques</button>
+<div class="container">
+  <div class="banner" id="banner">
+    <div class="banner-content">
+      <div class="banner-text">
+        <span id="short-text">⚠️ INFORMATION ⚠️</span>
+      </div>
+      <div class="btn-container">
+        <button class="toggle-btn" onclick="toggleText()"><i class="fas fa-chevron-down" id="toggle-icon"></i></button>
+        <button class="close-btn" onclick="closeBanner()">&times;</button>
+      </div>
+    </div>
+    <div class="full-text" id="full-text">
+      Nous serons indisponibles pendant la période du 20 juin au 2 juillet suite aux examens que certains membres de notre équipe passent. Le site sera donc en accès limité.
+    </div>
+  </div>
+</div>
 
-  <script>
-    document.getElementById('notifyButton').addEventListener('click', function() {
-      // Demander la permission pour envoyer des notifications
-      Notification.requestPermission().then(function(permission) {
-        if (permission === 'granted') {
-          // Si l'utilisateur a donné la permission, envoyer une notification
-          new Notification('Nouvelle Notification!', {
-            body: 'Vous avez une nouvelle notification locale!',
-            icon: 'https://via.placeholder.com/128',  // Lien vers une image d'exemple
-            badge: 'https://via.placeholder.com/128'  // Lien vers une image d'exemple
-          });
-        }
-      });
-    });
+<script>
+  function closeBanner() {
+    const banner = document.getElementById('banner');
+    banner.style.opacity = '0';
+    setTimeout(() => {
+      banner.style.display = 'none';
+    }, 500);
+  }
 
-    document.getElementById('periodicNotifyButton').addEventListener('click', function() {
-      // Demander la permission pour envoyer des notifications
-      Notification.requestPermission().then(function(permission) {
-        if (permission === 'granted') {
-          // Si l'utilisateur a donné la permission, envoyer des notifications périodiques
-          setInterval(function() {
-            new Notification('Rappel!', {
-              body: 'Ceci est une notification périodique!',
-              icon: 'https://via.placeholder.com/128'  // Lien vers une image d'exemple
-            });
-          }, 60000); // Toutes les 60 secondes (60000 ms)
-        }
-      });
-    });
-  </script>
+  function toggleText() {
+    const fullText = document.getElementById('full-text');
+    const toggleIcon = document.getElementById('toggle-icon');
+    if (fullText.classList.contains('show')) {
+      fullText.classList.remove('show');
+      fullText.classList.add('hide');
+      toggleIcon.classList.remove('fa-chevron-up');
+      toggleIcon.classList.add('fa-chevron-down');
+    } else {
+      fullText.classList.remove('hide');
+      fullText.classList.add('show');
+      toggleIcon.classList.remove('fa-chevron-down');
+      toggleIcon.classList.add('fa-chevron-up');
+    }
+  }
+</script>
 </body>
 </html>
