@@ -24,6 +24,7 @@
     <title>LIFECITY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
 body {
     font-family: Arial, sans-serif;
@@ -52,6 +53,11 @@ nav .logo {
     -webkit-background-clip: text;
     color: transparent;
 }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
 
 header {
     background-image: url('https://policeroleplay.community/_next/static/media/splash-optimised.3a1b2560.gif');
@@ -264,7 +270,33 @@ footer .footer-links a:hover {
 <body>
     <nav>
         <div class="logo">LIFECITY</div>
-</nav>
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Annonces</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Mairie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Emplois</a>
+                                  <li class="nav-item">
+                    <a class="nav-link" href="#">Entreprise</a>
+                                  <li class="nav-item">
+                    <a class="nav-link" href="#">Mafia</a>
+                                  <li class="nav-item">
+                    <a class="nav-link" href="#">Joueur</a>
+                                  <li class="nav-item">
+                    <a class="nav-link" href="#">Identité</a>
+                                  <li class="nav-item">
+                    <a class="nav-link" href="#">Discord</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <header>
         <h1>BIENVENUE SUR LE SITE DU GOUVERNEMENT DE LIFECITY</h1>
