@@ -258,6 +258,11 @@ footer .footer-links a:hover {
         transform: translateY(-20px);
     }
 }
+
+.link-button.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
     </style>
 </head>
 <body>
@@ -268,25 +273,24 @@ footer .footer-links a:hover {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Annonces</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Mairie</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Emplois</a>
-                                  <li class="nav-item">
-                    <a class="nav-link" href="#">Entreprise</a>
-                                  <li class="nav-item">
-                    <a class="nav-link" href="#">Mafia</a>
-                                  <li class="nav-item">
-                    <a class="nav-link" href="#">Joueur</a>
-                                  <li class="nav-item">
-                    <a class="nav-link" href="#">Identité</a>
-                                  <li class="nav-item">
-                    <a class="nav-link" href="#">Discord</a>
-                </li>
+            <li class="nav-item">
+    <a class="nav-link" href="#">Emplois</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="#">Entreprise</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="#">Mafia</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="#">Joueur</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="#">Identité</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="#">Discord</a>
+</li>
             </ul>
         </div>
     </nav>
@@ -379,7 +383,7 @@ footer .footer-links a:hover {
                     <div class="text">
                         <h3>MAIRE</h3>
                         <p>Au sommet de l’administration de LifeCity, le maire incarne le leadership et la vision pour l’avenir de la ville. En travaillant avec le conseil municipal, il guide la gestion des ressources, le développement urbain et la prestation des services municipaux, s’efforçant de faire de LifeCity un endroit où chacun peut prospérer et s’épanouir.</p>
-                        <a href="apply-mayor.html" class="link-button"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Ce poste n'est actuellement pas disponible. <strong>Prochaines élections : Septembre 2024 (Ouverture des candidatures le 15 juillet à minuit)</strong></a>
+<a href="apply-mayor.html" class="link-button"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Ce poste n'est actuellement pas disponible. <strong>Prochaines élections : Septembre 2024 (Ouverture des candidatures le 15 juillet à minuit)</strong></a>
                     </div>
                 </div>
             </div>
@@ -395,7 +399,7 @@ footer .footer-links a:hover {
         <div class="section">
             <h2><i class="fas fa-building"></i> DÉCLARER VOTRE ENTREPRISE</h2>
             <p>Enregistrez votre entreprise auprès du gouvernement de LifeCity.</p>
-            <a href="./declare-business.html" class="link-button"disabled><i class="fas fa-building"></i> Déclarer</a>
+          <a href="./declare-business.html" class="link-button disabled"><i class="fas fa-building"></i> Déclarer</a>
         </div>
 
         <div class="section">
