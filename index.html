@@ -24,9 +24,7 @@
     <title>LIFECITY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-   
     <style>
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -42,7 +40,6 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
     top: 0;
     z-index: 1000;
 }
@@ -259,41 +256,32 @@ footer .footer-links a:hover {
     }
 }
 
-.link-button.disabled {
-    pointer-events: none;
-    opacity: 0.5;
+@media (max-width: 768px) {
+    nav .menu {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    nav .menu ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    nav .menu ul li {
+        margin: 10px 0;
+    }
+    nav .menu ul li ul {
+        position: static;
+    }
+    nav .menu-toggle {
+        display: block;
+    }
 }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-white bg-white">
+    <nav>
         <div class="logo">LIFECITY</div>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-    <a class="nav-link" href="#">Emplois</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="#">Entreprise</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="#">Mafia</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="#">Joueur</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="#">Identité</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="#">Discord</a>
-</li>
-            </ul>
-        </div>
-    </nav>
+</nav>
 
     <header>
         <h1>BIENVENUE SUR LE SITE DU GOUVERNEMENT DE LIFECITY</h1>
@@ -309,11 +297,21 @@ footer .footer-links a:hover {
             <p>Retrouvez ici toutes les annonces officielles du gouvernement de LifeCity.</p>
             <div class="announcement">
                 <div class="content">
-                    <img src="https://img.freepik.com/vecteurs-premium/icone-globe-effet-violet-degrade_197792-4858.jpg" alt="Announcement">
+                    <img src="announcement-image.jpg" alt="Announcement">
                     <div class="text">
-                        <h3>Nouveau site, nouvelle direction !</h3>
-                        <p>Bienvenue sur le nouveau site gouvernementale ! Un site plus intuitif, coloré et ergonomique ! Plus d'excuses pour vos déclarations, tout est simple ! Si vous rencontrer des bugs, merci de nous conctater sur Discord ❤️ !</p>
-                        <small>Écrit par: L'équipe d'administration et la direction du serveur</small>
+                        <h3>EXEMPLE D'ANNONCE 1</h3>
+                        <p>Contenu de l'annonce 1...</p>
+                        <small>Écrit par: John Doe</small>
+                    </div>
+                </div>
+            </div>
+            <div class="announcement">
+                <div class="content">
+                    <img src="announcement-image.jpg" alt="Announcement">
+                    <div class="text">
+                        <h3>EXEMPLE D'ANNONCE 2</h3>
+                        <p>Contenu de l'annonce 2...</p>
+                        <small>Écrit par: Jane Smith</small>
                     </div>
                 </div>
             </div>
@@ -383,7 +381,7 @@ footer .footer-links a:hover {
                     <div class="text">
                         <h3>MAIRE</h3>
                         <p>Au sommet de l’administration de LifeCity, le maire incarne le leadership et la vision pour l’avenir de la ville. En travaillant avec le conseil municipal, il guide la gestion des ressources, le développement urbain et la prestation des services municipaux, s’efforçant de faire de LifeCity un endroit où chacun peut prospérer et s’épanouir.</p>
-<a href="apply-mayor.html" class="link-button"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Ce poste n'est actuellement pas disponible. <strong>Prochaines élections : Septembre 2024 (Ouverture des candidatures le 15 juillet à minuit)</strong></a>
+                        <a href="apply-mayor.html" class="link-button"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Ce poste n'est actuellement pas disponible. <strong>Prochaines élections : Septembre 2024 (Ouverture des candidatures le 15 juillet à minuit)</strong></a>
                     </div>
                 </div>
             </div>
@@ -399,7 +397,7 @@ footer .footer-links a:hover {
         <div class="section">
             <h2><i class="fas fa-building"></i> DÉCLARER VOTRE ENTREPRISE</h2>
             <p>Enregistrez votre entreprise auprès du gouvernement de LifeCity.</p>
-          <a href="./declare-business.html" class="link-button disabled"><i class="fas fa-building"></i> Déclarer</a>
+            <a href="./declare-business.html" class="link-button"disabled><i class="fas fa-building"></i> Déclarer</a>
         </div>
 
         <div class="section">
