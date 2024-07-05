@@ -297,225 +297,68 @@ footer .footer-links a:hover {
 }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.querySelector("form");
-            const declaredIdentity = JSON.parse(localStorage.getItem("declaredIdentity"));
-            let lastUpdate = localStorage.getItem("lastUpdate");
+      document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
 
-            if (declaredIdentity) {
-                if (!lastUpdate) {
-                    lastUpdate = new Date().toISOString();
-                    localStorage.setItem("lastUpdate", lastUpdate);
-                }
-                displayDeclaredIdentity(declaredIdentity, lastUpdate);
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        const embed = {
+            author: {
+                name: "Système de Déclaration d'Identité",
+                icon_url: "https://example.com/icon.png" // Remplace cette URL par celle de ton choix
+            },
+            title: "Nouvelle déclaration d'identité",
+            description: "Ce message doit être traité rapidement.",
+            color: 2424576,
+            thumbnail: {
+                url: "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"
+            },
+            fields: [
+                { name: "Nom RP", value: data.rp_name, inline: true },
+                { name: "Prénom RP", value: data.rp_surname, inline: true },
+                { name: "Pseudonyme Discord", value: data.discord, inline: true },
+                { name: "Âge", value: data.age, inline: true },
+                { name: "Nationalité", value: data.nationality, inline: true },
+                { name: "Sexe", value: data.gender, inline: true }
+            ],
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            const response = await fetch("https://discord.com/api/webhooks/1251437445443092571/cPBL8dB2hHZCRt12Sc9Ewx1i0hrnr1lYf8qJiyE1TZCDH9E3QlEUKVtUW0BP1qv5KyV7", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ embeds: [embed] })
+            });
+
+            if (response.ok) {
+                showNotification("success", "Votre déclaration a été envoyée avec succès. Une réponse sera envoyée sous 72 heures.");
+                form.reset();
             } else {
-                form.addEventListener("submit", async (event) => {
-                    event.preventDefault();
-
-                    const formData = new FormData(form);
-                    const data = Object.fromEntries(formData.entries());
-
-                    // Générer un code électoral unique
-                    const electoralCode = generateElectoralCode();
-                    data.electoralCode = electoralCode;
-
-                    const embed = {
-                        title: "Nouvelle déclaration d'identité",
-                        color: 2424576,
-                        thumbnail: {
-                         "url": "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"},
-                        fields: [
-                            { name: "Nom RP", value: data.rp_name, inline: true },
-                            { name: "Prénom RP", value: data.rp_surname, inline: true },
-                            { name: "Pseudonyme Discord", value: data.discord, inline: true },
-                            { name: "Âge", value: data.age, inline: true },
-                            { name: "Code Électoral", value: data.electoralCode, inline: true }
-                        ]
-                    };
-
-                    try {
-                        const response = await fetch("https://discord.com/api/webhooks/1251437445443092571/cPBL8dB2hHZCRt12Sc9Ewx1i0hrnr1lYf8qJiyE1TZCDH9E3QlEUKVtUW0BP1qv5KyV7", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ embeds: [embed] })
-                        });
-
-                        if (response.ok) {
-                            localStorage.setItem("declaredIdentity", JSON.stringify(data));
-                            lastUpdate = new Date().toISOString();
-                            localStorage.setItem("lastUpdate", lastUpdate);
-                            showNotification("success", "Votre déclaration a été envoyée avec succès.");
-                            displayDeclaredIdentity(data, lastUpdate);
-                        } else {
-                            showNotification("error", "Erreur lors de l'envoi de votre déclaration. Veuillez réessayer.");
-                        }
-                    } catch (error) {
-                        showNotification("error", "Erreur lors de l'envoi de votre déclaration. Veuillez réessayer.");
-                    }
-                });
+                showNotification("error", "Erreur lors de l'envoi de votre déclaration. Veuillez réessayer.");
             }
+        } catch (error) {
+            showNotification("error", "Erreur lors de l'envoi de votre déclaration. Veuillez réessayer.");
+        }
+    });
 
-            function generateElectoralCode() {
-                return 'LC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-            }
+    function showNotification(type, message) {
+        const notification = document.createElement("div");
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+        document.body.appendChild(notification);
+        notification.style.display = "flex";
+        setTimeout(() => {
+            notification.classList.add("animate__animated", "animate__fadeOut");
+            notification.addEventListener("animationend", () => notification.remove());
+        }, 5000);
+    }
+});
 
-            function showNotification(type, message) {
-                const notification = document.createElement("div");
-                notification.className = `notification ${type}`;
-                notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-                document.body.appendChild(notification);
-                notification.style.display = "flex";
-                setTimeout(() => {
-                    notification.classList.add("animate__animated", "animate__fadeOut");
-                    notification.addEventListener("animationend", () => notification.remove());
-                }, 5000);
-            }
-
-            function displayDeclaredIdentity(identity, lastUpdate) {
-                const container = document.querySelector(".container");
-                const declaredSection = document.createElement("div");
-                declaredSection.className = "section";
-                declaredSection.innerHTML = `
-                    <h2><i class="fas fa-user-check"></i> Identité Déclarée</h2>
-                    <p><strong>Nom RP :</strong> ${identity.rp_name}</p>
-                    <p><strong>Prénom RP :</strong> ${identity.rp_surname}</p>
-                    <p><strong>Pseudonyme Discord :</strong> ${identity.discord}</p>
-                    <p><strong>Âge :</strong> ${identity.age}</p>
-
-<p><strong>Code électoral :
-                    <p class="code"><strong>${identity.electoralCode}</p>
-                    <p class="countdown"></p>
-                    <div id="edit-button" class="link-button" disabled><i class="fa-solid fa-pencil"></i>Modifier l'identité</div>
-
-                    <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
-                `;
-                container.innerHTML = '';
-                container.appendChild(declaredSection);
-
-                const editButton = document.getElementById("edit-button");
-                if (lastUpdate) {
-                    const lastUpdateDate = new Date(lastUpdate);
-                    const nextAllowedUpdate = new Date(lastUpdateDate);
-                    nextAllowedUpdate.setMonth(nextAllowedUpdate.getMonth() + 1);
-
-                    updateCountdown(nextAllowedUpdate);
-
-                    if (new Date() >= nextAllowedUpdate) {
-                        editButton.disabled = false;
-                        editButton.addEventListener("click", async () => {
-                            const newFormData = {
-                                rp_name: prompt("Nom RP:", identity.rp_name),
-                                rp_surname: prompt("Prénom RP:", identity.rp_surname),
-                                discord: prompt("Pseudonyme Discord:", identity.discord),
-                                age: prompt("Âge:", identity.age),
-                                electoralCode: identity.electoralCode
-                            };
-
-                            const embed = {
-                                title: "Modification d'identité",
-                                color: 16762624,
-                                thumbnail: {
-                                        "url": "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"},
-                                fields: [
-                                    { name: "Nom RP", value: newFormData.rp_name, inline: true },
-                                    { name: "Prénom RP", value: newFormData.rp_surname, inline: true },
-                                    { name: "Pseudonyme Discord", value: newFormData.discord, inline: true },
-                                    { name: "Âge", value: newFormData.age, inline: true },
-                                    { name: "Code Électoral", value: newFormData.electoralCode, inline: true }
-                                ]
-                            };
-
-                            try {
-                                const response = await fetch("https://discord.com/api/webhooks/1251624715324489750/V3PyzdjUToeBoBDwdQ141rmlNLEw-7ce5B4MO_uFvKB97bccf8d_LPu1Pgg2DnSffblp", {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ embeds: [embed] })
-                                });
-
-                                if (response.ok) {
-                                    localStorage.setItem("declaredIdentity", JSON.stringify(newFormData));
-                                    lastUpdate = new Date().toISOString();
-                                    localStorage.setItem("lastUpdate", lastUpdate);
-                                    showNotification("success", "Votre modification a été envoyée avec succès.");
-                                    displayDeclaredIdentity(newFormData, lastUpdate);
-                                } else {
-                                    showNotification("error", "Erreur lors de l'envoi de votre modification. Veuillez réessayer.");
-                                }
-                            } catch (error) {
-                                showNotification("error", "Erreur lors de l'envoi de votre modification. Veuillez réessayer.");
-                            }
-                        });
-                    } else {
-                        const interval = setInterval(() => {
-                            updateCountdown(nextAllowedUpdate);
-                            if (new Date() >= nextAllowedUpdate) {
-                                clearInterval(interval);
-                                editButton.disabled = false;
-                                editButton.addEventListener("click", async () => {
-                                    const newFormData = {
-                                        rp_name: prompt("Nom RP:", identity.rp_name),
-                                        rp_surname: prompt("Prénom RP:", identity.rp_surname),
-                                        discord: prompt("Pseudonyme Discord:", identity.discord),
-                                        age: prompt("Âge:", identity.age),
-                                        electoralCode: identity.electoralCode
-                                    };
-
-                                    const embed = {
-                                        title: "Modification d'identité",
-                                        color: 16762624,
-                                        thumbnail: {
-                                        "url": "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"},
-                                        fields: [
-                                            { name: "Nom RP", value: newFormData.rp_name, inline: true },
-                                            { name: "Prénom RP", value: newFormData.rp_surname, inline: true },
-                                            { name: "Pseudonyme Discord", value: newFormData.discord, inline: true },
-                                            { name: "Âge", value: newFormData.age, inline: true },
-                                            { name: "Code Électoral", value: newFormData.electoralCode, inline: true }
-                                        ]
-                                    };
-
-                                    try {
-                                        const response = await fetch("https://discord.com/api/webhooks/1251437445443092571/cPBL8dB2hHZCRt12Sc9Ewx1i0hrnr1lYf8qJiyE1TZCDH9E3QlEUKVtUW0BP1qv5KyV7", {
-                                            method: "POST",
-                                            headers: { "Content-Type": "application/json" },
-                                            body: JSON.stringify({ embeds: [embed] })
-                                        });
-
-                                        if (response.ok) {
-                                            localStorage.setItem("declaredIdentity", JSON.stringify(newFormData));
-                                            lastUpdate = new Date().toISOString();
-                                            localStorage.setItem("lastUpdate", lastUpdate);
-                                            showNotification("success", "Votre modification a été envoyée avec succès.");
-                                            displayDeclaredIdentity(newFormData, lastUpdate);
-                                        } else {
-                                            showNotification("error", "Erreur lors de l'envoi de votre modification. Veuillez réessayer.");
-                                        }
-                                    } catch (error) {
-                                        showNotification("error", "Erreur lors de l'envoi de votre modification. Veuillez réessayer.");
-                                    }
-                                });
-                            }
-                        }, 1000);
-                    }
-                }
-            }
-
-            function updateCountdown(nextAllowedUpdate) {
-                const countdownElement = document.querySelector(".countdown");
-                const now = new Date();
-                const timeDiff = nextAllowedUpdate - now;
-
-                if (timeDiff > 0) {
-                    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                    countdownElement.textContent = `Vous pourrez modifier votre identité dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
-                } else {
-                    countdownElement.textContent = "Vous pouvez maintenant modifier votre identité.";
-                }
-            }
-        });
     </script>
 </head>
 <body>
@@ -557,6 +400,14 @@ footer .footer-links a:hover {
                 <div class="form-group">
                     <label for="age">Âge:</label>
                     <input type="number" id="age" name="age" required>
+                </div>
+                                <div class="form-group">
+                    <label for="age">Nationalité :</label>
+                    <input type="text" id="nationality" name="nationality" required>
+                </div>
+                                <div class="form-group">
+                    <label for="age">Sexe :</label>
+                    <input type="text" id="sexe" name="sexe" required>
                 </div>
                 <button type="submit" class="link-button"><i class="fa-solid fa-pencil"></i>Envoyer</button>
             </form>
