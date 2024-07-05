@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-     <meta property="og:title" content="Candidature pour le poste de Directeur des Services de secours">
-   <meta property="og:description" content="Découvrez le site gouvernemental de LifeCity et postuler pour devenir Directeur des Services de secours">
+     <meta property="og:title" content="Candidature pour le poste de secouriste de la LAFD">
+   <meta property="og:description" content="Découvrez le site gouvernemental de LifeCity et postuler pour devenir secouriste de la LAFD">
    <meta property="og:url" content="https://lifecityfr.github.io/lifecity/">
    <meta property="og:type" content="website">
-   <meta property="og:image" content="https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571">
+   <meta property="og:image" content="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571">
    <meta property="og:site_name" content="LifeCity"> 
-   <link rel="icon" href="https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571" type="image/png">
+   <link rel="icon" href="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571" type="image/png">
 
 
    <!-- Apple Touch Icon for iOS -->
-   <link rel="apple-touch-icon" sizes="180x180" href="https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571">
+   <link rel="apple-touch-icon" sizes="180x180" href="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571">
    <meta name="apple-mobile-web-app-title" content="LifeCity">
    <meta name="apple-mobile-web-app-capable" content="yes">
    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
    <!-- Android settings -->
-   <link rel="icon" sizes="192x192" href="https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571">
+   <link rel="icon" sizes="192x192" href="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571">
    <link rel="manifest" href="https://example.com/path/to/site.webmanifest">
-   <meta name="theme-color" content="#ffffff">
-    <title>Postuler pour le poste de Directeur des Services de secours - LifeCity</title>
+   <meta name="theme-color" content="#ffffff"> 
+    <title>Postuler pour le poste de secouriste de la LAFD - LifeCity</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -301,60 +301,10 @@ footer .footer-links a:hover {
 }
     </style>
     <script>
-       document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const formSection = document.querySelector(".form-section");
     const notificationSection = document.createElement("div");
-    const TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000;
-
-    function updateSection() {
-        const lastSubmission = localStorage.getItem("lastSubmission");
-        if (lastSubmission) {
-            const lastSubmissionDate = new Date(lastSubmission);
-            const now = new Date();
-            const timeSinceLastSubmission = now - lastSubmissionDate;
-
-            if (timeSinceLastSubmission < TWO_WEEKS_IN_MS) {
-                formSection.style.display = "none";
-                const timeRemaining = TWO_WEEKS_IN_MS - timeSinceLastSubmission;
-                notificationSection.className = "section";
-                notificationSection.innerHTML = `
-                    <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
-                    <p>Vous avez déjà soumis une candidature récemment. Vous pouvez soumettre une nouvelle candidature toutes les deux semaines.</p>
-                    <p id="timer" class="countdown"><strong>Vous pourrez renvoyer votre candidature dans ${formatTime(timeRemaining)}</strong></p>
-                <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
-                `;
-                document.querySelector(".container").appendChild(notificationSection);
-                startTimer(timeRemaining);
-            } else {
-                formSection.style.display = "block";
-                if (notificationSection.parentNode) {
-                    notificationSection.parentNode.removeChild(notificationSection);
-                }
-            }
-        }
-    }
-
-    function startTimer(duration) {
-        let timer = duration;
-        const interval = setInterval(() => {
-            if (timer < 0) {
-                clearInterval(interval);
-                updateSection();
-            } else {
-                document.getElementById("timer").textContent = `Vous pourrez renvoyer votre candidature dans ${formatTime(timer)}`;
-                timer -= 1000;
-            }
-        }, 1000);
-    }
-
-    function formatTime(ms) {
-        const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-        return `${days}j ${hours}h ${minutes}m ${seconds}s`;
-    }
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -363,10 +313,15 @@ footer .footer-links a:hover {
         const data = Object.fromEntries(formData.entries());
 
         const embed = {
-            title: "Nouvelle Candidature - Directeur des Services de secours",
+            author: {
+                name: "Système de Candidature",
+                icon_url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571" 
+            },
+            title: "Nouvelle Candidature - Secouriste de la LAFD",
+            description: "Ce message doit être traité rapidement.",
             color: 2424576,
             thumbnail: {
-                url: "https://images-ext-1.discordapp.net/external/Ig0QliFruDtZtEnNRGXzpXlIJ4WU3pcMRx0UHQRd66Y/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1236673811156304005/07571c9a8864e14df16cdc00ee92abb3.png?format=webp&quality=lossless&width=571&height=571"
+                url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571"
             },
             fields: [
                 { name: "Nom RP", value: data.rp_name, inline: true },
@@ -376,9 +331,9 @@ footer .footer-links a:hover {
                 { name: "Motivations", value: data.motivations, inline: false },
                 { name: "Qualifications", value: data.qualifications, inline: false },
                 { name: "Défauts", value: data.defects, inline: false },
-                { name: "Qualités", value: data.qualities, inline: false },
-                { name: "Programme", value: data.program, inline: false }
-            ]
+                { name: "Qualités", value: data.qualities, inline: false }
+            ],
+            timestamp: new Date().toISOString()
         };
 
         try {
@@ -389,10 +344,9 @@ footer .footer-links a:hover {
             });
 
             if (response.ok) {
-                localStorage.setItem("lastSubmission", new Date().toISOString());
                 showNotification("success", "Votre candidature a été envoyée avec succès !");
                 form.reset();
-                updateSection();
+                showReturnButton();
             } else {
                 showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
             }
@@ -413,7 +367,16 @@ footer .footer-links a:hover {
         }, 3000);
     }
 
-    updateSection();
+    function showReturnButton() {
+        formSection.style.display = "none";
+        notificationSection.className = "section";
+        notificationSection.innerHTML = `
+            <h2><i class="fas fa-check-circle"></i> Candidature envoyée</h2>
+            <p>Merci pour votre candidature. Une réponse sera envoyée sous 72 heures. Vous pouvez retourner à la page d'accueil en cliquant sur le bouton ci-dessous.</p>
+            <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
+        `;
+        document.querySelector(".container").appendChild(notificationSection);
+    }
 });
     </script>
 </head>
@@ -422,17 +385,17 @@ footer .footer-links a:hover {
         <div class="logo">LIFECITY</div>
     </nav>
     <header>
-        <h1>Postuler pour le poste de Directeur des Services de secours</h1>
-        <p>Rejoignez l'équipe et assurez la qualité des secours de LifeCity</p>
+        <h1>Postuler pour le poste de secouriste de la LAFD</h1>
+        <p>Rejoignez l'équipe et assurez la sécurité de LifeCity</p>
     </header>
     <div class="container">
         <div class="section">
             <h2><i class="fas fa-briefcase"></i> Détails du poste</h2>
             <div class="job-details">
-                <img src="https://www.lafd.org/profiles/lafd/themes/lafd_org/logo.png">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Seal_of_the_Los_Angeles_Police_Department.png" alt="Logo Chef de la Police">
                 <div class="content">
-                    <p><strong>Nom du poste :</strong> Directeur des Services de secours</p>
-                    <p><strong>Description :</strong> Face aux défis des catastrophes naturelles et des urgences, le directeur du département des secours de LifeCity est en première ligne pour protéger les habitants. En supervisant les équipes de secours, en développant des plans d’intervention et en coordonnant les opérations lors des crises, il incarne l’esprit de solidarité et de préparation de la ville.</p>
+                    <p><strong>Nom du poste :</strong> Secouriste de la LAFD</p>
+                    <p><strong>Description :</strong> En tant que Secouriste de la LAFD, vous paticiperez à la sécurité et au bien être médicale du comté.</p>
                 </div>
             </div>
         </div>
@@ -472,10 +435,6 @@ footer .footer-links a:hover {
                     <textarea id="qualities" name="qualities" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="program">Programme pour le département des secours :</label>
-                    <textarea id="program" name="program" required></textarea>
-                </div>
-                <div class="form-group">
                     <button type="submit" class="link-button">Soumettre</button>
                 </div>
                 <div class="form-group">
@@ -487,14 +446,14 @@ footer .footer-links a:hover {
     <footer>
         <p>&copy; 2024 LIFECITY. Tous droits réservés.</p>
         <div class="footer-links">
-            <a href="index.html?government-announcements"><i class="fas fa-bullhorn"></i> Annonces</a>
-            <a href="index.html?mayor-announcements"><i class="fas fa-university"></i> Mairie</a>
-            <a href="index.html?job-offers"><i class="fas fa-briefcase"></i> Emplois</a>
-            <a href="declare-business.html"><i class="fas fa-building"></i> Entreprise</a>
-            <a href="declare-mafia.html"><i class="fas fa-user-secret"></i> Mafia</a>
-            <a href="report-player.html"><i class="fas fa-exclamation-triangle"></i> Joueur</a>
-            <a href="declare-identity.html"><i class="fas fa-id-card"></i> Identité</a>
-            <a href="https://discord.gg/Dx9FJVyhT6"><i class="fab fa-discord"></i> Discord</a>
+            <a href="./apply-lapd.html"><i class="fas fa-briefcase"></i> Rejoindre la LAPD</a>
+            <a href="./apply-lafd.html"><i class="fas fa-briefcase"></i> Rejoindre le LAFD</a>
+            <a href="./apply-ladot.html"><i class="fas fa-briefcase"></i> Rejoindre la LADOT</a>
+            <a href="./declare-business.html"><i class="fas fa-building"></i> Entreprise</a>
+            <a href="./declare-mafia.html"><i class="fas fa-user-secret"></i> Mafia</a>
+            <a href="./declare-identity.html"><i class="fas fa-id-card"></i> Identité</a>
+            <a href="https://discord.gg/Dx9FJVyhT6"><i class="fab fa-discord"></i> Discord Principal</a>
+            <a href="https://discord.gg/Fp8KRNmfm2"><i class="fab fa-discord"></i> Discord Gouvernemental</a>
         </div>
     </footer>
 </body>
