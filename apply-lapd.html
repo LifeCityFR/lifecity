@@ -305,56 +305,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const formSection = document.querySelector(".form-section");
     const notificationSection = document.createElement("div");
-    const TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000;
-
-    function updateSection() {
-        const lastSubmission = localStorage.getItem("lastSubmission");
-        if (lastSubmission) {
-            const lastSubmissionDate = new Date(lastSubmission);
-            const now = new Date();
-            const timeSinceLastSubmission = now - lastSubmissionDate;
-
-            if (timeSinceLastSubmission < TWO_WEEKS_IN_MS) {
-                formSection.style.display = "none";
-                const timeRemaining = TWO_WEEKS_IN_MS - timeSinceLastSubmission;
-                notificationSection.className = "section";
-                notificationSection.innerHTML = `
-                    <h2><i class="fas fa-info-circle"></i> Formulaire indisponible</h2>
-                    <p>Vous avez déjà soumis une candidature récemment. Vous pouvez soumettre une nouvelle candidature toutes les deux semaines.</p>
-                    <p id="timer" class="countdown"><strong>Vous pourrez renvoyer votre candidature dans ${formatTime(timeRemaining)}</strong></p>
-               <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
-                `;
-                document.querySelector(".container").appendChild(notificationSection);
-                startTimer(timeRemaining);
-            } else {
-                formSection.style.display = "block";
-                if (notificationSection.parentNode) {
-                    notificationSection.parentNode.removeChild(notificationSection);
-                }
-            }
-        }
-    }
-
-    function startTimer(duration) {
-        let timer = duration;
-        const interval = setInterval(() => {
-            if (timer < 0) {
-                clearInterval(interval);
-                updateSection();
-            } else {
-                document.getElementById("timer").textContent = `Vous pourrez renvoyer votre candidature dans ${formatTime(timer)}`;
-                timer -= 1000;
-            }
-        }, 1000);
-    }
-
-    function formatTime(ms) {
-        const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-        return `${days}j ${hours}h ${minutes}m ${seconds}s`;
-    }
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -363,7 +313,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = Object.fromEntries(formData.entries());
 
         const embed = {
-            title: "Nouvelle Candidature - Chef de la Police",
+            author: {
+                name: "Système de Candidature",
+                icon_url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571" 
+            },
+            title: "Nouvelle Candidature - Agent de la LAPD",
+            description: "Ce message doit être traité rapidement.",
             color: 2424576,
             thumbnail: {
                 url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571"
@@ -376,9 +331,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 { name: "Motivations", value: data.motivations, inline: false },
                 { name: "Qualifications", value: data.qualifications, inline: false },
                 { name: "Défauts", value: data.defects, inline: false },
-                { name: "Qualités", value: data.qualities, inline: false },
-                { name: "Programme", value: data.program, inline: false }
-            ]
+                { name: "Qualités", value: data.qualities, inline: false }
+            ],
+            timestamp: new Date().toISOString()
         };
 
         try {
@@ -389,10 +344,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (response.ok) {
-                localStorage.setItem("lastSubmission", new Date().toISOString());
                 showNotification("success", "Votre candidature a été envoyée avec succès !");
                 form.reset();
-                updateSection();
+                showReturnButton();
             } else {
                 showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
             }
@@ -413,7 +367,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3000);
     }
 
-    updateSection();
+    function showReturnButton() {
+        formSection.style.display = "none";
+        notificationSection.className = "section";
+        notificationSection.innerHTML = `
+            <h2><i class="fas fa-check-circle"></i> Candidature envoyée</h2>
+            <p>Merci pour votre candidature. Une réponse sera envoyée sous 72 heures. Vous pouvez retourner à la page d'accueil en cliquant sur le bouton ci-dessous.</p>
+            <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
+        `;
+        document.querySelector(".container").appendChild(notificationSection);
+    }
 });
     </script>
 </head>
