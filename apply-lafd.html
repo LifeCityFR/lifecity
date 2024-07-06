@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-     <meta property="og:title" content="Candidature pour le poste de secouriste de la LAFD">
+     <meta property="og:title" content="Candidature pour le poste de secouriste du LAFD">
    <meta property="og:description" content="Découvrez le site gouvernemental de LifeCity et postuler pour devenir secouriste de la LAFD">
    <meta property="og:url" content="https://lifecityfr.github.io/lifecity/">
    <meta property="og:type" content="website">
@@ -22,7 +22,7 @@
    <link rel="icon" sizes="192x192" href="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571">
    <link rel="manifest" href="https://example.com/path/to/site.webmanifest">
    <meta name="theme-color" content="#ffffff"> 
-    <title>Postuler pour le poste de secouriste de la LAFD - LifeCity</title>
+    <title>Postuler pour le poste de secouriste du LAFD - LifeCity</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -305,6 +305,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const formSection = document.querySelector(".form-section");
     const notificationSection = document.createElement("div");
+    const MAX_CHAR_LIMIT = 1024;
+
+    // Fonction pour vérifier la longueur des champs en temps réel
+    function checkFieldLength() {
+        const inputFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+        let errors = [];
+        
+        inputFields.forEach(field => {
+            if (field.value.length > MAX_CHAR_LIMIT) {
+                errors.push(`Le champ "${field.name}" dépasse les ${MAX_CHAR_LIMIT} caractères.`);
+            }
+        });
+        
+        if (errors.length > 0) {
+            showNotification("error", errors.join('<br>'));
+        } else {
+            removeNotification();
+        }
+    }
+
+    // Ajouter des écouteurs d'événements d'entrée à chaque champ
+    const inputFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    inputFields.forEach(field => {
+        field.addEventListener('input', checkFieldLength);
+    });
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -312,12 +337,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
+        // Vérifier la longueur de chaque champ
+        let errors = [];
+        for (const [key, value] of Object.entries(data)) {
+            if (value.length > MAX_CHAR_LIMIT) {
+                errors.push(`Le champ "${key}" dépasse les ${MAX_CHAR_LIMIT} caractères.`);
+            }
+        }
+        
+        if (errors.length > 0) {
+            showNotification("error", errors.join('<br>'));
+            return;
+        }
+
         const embed = {
             author: {
                 name: "Système de Candidature",
-                icon_url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571" 
+                icon_url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571" // Remplace cette URL par celle de ton choix
             },
-            title: "Nouvelle Candidature - Secouriste de la LAFD",
+            title: "Nouvelle Candidature - Secouriste du LAFD",
             description: "Ce message doit être traité rapidement.",
             color: 2424576,
             thumbnail: {
@@ -356,15 +394,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function showNotification(type, message) {
-        const notification = document.createElement("div");
-        notification.className = `notification ${type}`;
+        let notification = document.querySelector('.notification');
+        if (!notification) {
+            notification = document.createElement("div");
+            notification.className = `notification ${type}`;
+            document.body.appendChild(notification);
+        } else {
+            notification.className = `notification ${type}`;
+        }
         notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-        document.body.appendChild(notification);
         notification.style.display = "flex";
-        setTimeout(() => {
-            notification.classList.add("animate__animated", "animate__fadeOut");
-            notification.addEventListener("animationend", () => notification.remove());
-        }, 3000);
+    }
+
+    function removeNotification() {
+        const notification = document.querySelector('.notification');
+        if (notification) {
+            notification.style.display = "none";
+        }
     }
 
     function showReturnButton() {
@@ -378,6 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".container").appendChild(notificationSection);
     }
 });
+
     </script>
 </head>
 <body>
@@ -385,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="logo">LIFECITY</div>
     </nav>
     <header>
-        <h1>Postuler pour le poste de secouriste de la LAFD</h1>
+        <h1>Postuler pour le poste de secouriste du LAFD</h1>
         <p>Rejoignez l'équipe et assurez la sécurité de LifeCity</p>
     </header>
     <div class="container">
@@ -394,7 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="job-details">
                 <img src="https://www.lafd.org/profiles/lafd/themes/lafd_org/logo.png" alt="Logo LAFD">
                 <div class="content">
-                    <p><strong>Nom du poste :</strong> Secouriste de la LAFD</p>
+                    <p><strong>Nom du poste :</strong> Secouriste du LAFD</p>
                     <p><strong>Description :</strong> En tant que Secouriste de la LAFD, vous paticiperez à la sécurité et au bien être médicale du comté.</p>
                 </div>
             </div>
