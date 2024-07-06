@@ -307,6 +307,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const notificationSection = document.createElement("div");
     const MAX_CHAR_LIMIT = 1024;
 
+    // Fonction pour vérifier la longueur des champs en temps réel
+    function checkFieldLength(event) {
+        const field = event.target;
+        if (field.value.length > MAX_CHAR_LIMIT) {
+            showNotification("error", `Le champ "${field.name}" dépasse les ${MAX_CHAR_LIMIT} caractères. Veuillez le raccourcir.`);
+        } else {
+            removeNotification();
+        }
+    }
+
+    // Ajouter des écouteurs d'événements d'entrée à chaque champ
+    const inputFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    inputFields.forEach(field => {
+        field.addEventListener('input', checkFieldLength);
+    });
+
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -365,11 +381,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function showNotification(type, message) {
-        const notification = document.createElement("div");
-        notification.className = `notification ${type}`;
+        let notification = document.querySelector('.notification');
+        if (!notification) {
+            notification = document.createElement("div");
+            notification.className = `notification ${type}`;
+            document.body.appendChild(notification);
+        } else {
+            notification.className = `notification ${type}`;
+        }
         notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-        document.body.appendChild(notification);
         notification.style.display = "flex";
+    }
+
+    function removeNotification() {
+        const notification = document.querySelector('.notification');
+        if (notification) {
+            notification.style.display = "none";
+        }
     }
 
     function showReturnButton() {
@@ -383,6 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".container").appendChild(notificationSection);
     }
 });
+
     </script>
 </head>
 <body>
