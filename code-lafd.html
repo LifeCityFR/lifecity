@@ -20,8 +20,12 @@
             margin: 0;
             background-color: #f9f9f9;
             color: #333;
+            transition: background-color 0.3s, color 0.3s;
         }
-
+        body.dark-mode {
+            background-color: #333;
+            color: #f9f9f9;
+        }
         .container {
             text-align: center;
             background-color: #fff;
@@ -30,18 +34,21 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             animation: fadeIn 1s ease-in-out;
             max-width: 400px;
+            width: 90%;
+            transition: background-color 0.3s, color 0.3s;
         }
-
+        .container.dark-mode {
+            background-color: #444;
+            color: #f9f9f9;
+        }
         .container h1 {
             font-size: 24px;
             margin-bottom: 20px;
         }
-
         .container p {
             font-size: 16px;
             margin-bottom: 10px;
         }
-
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #3498db;
@@ -51,60 +58,84 @@
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         .footer {
             margin-top: 20px;
             font-size: 12px;
             color: #aaa;
         }
-
         .success {
             display: none;
             color: green;
             font-weight: bold;
         }
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .progress-bar-inner {
+            height: 20px;
+            width: 0;
+            background-color: #3498db;
+            transition: width 1s linear;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        .theme-toggle, .lang-toggle {
+            margin: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Vérification de votre navigateur</h1>
+        <h1 id="title">Vérification de votre navigateur</h1>
         <p id="status-message">Veuillez patienter pendant que nous vérifions votre navigateur...</p>
         <div class="loader"></div>
+        <div class="progress-bar">
+            <div class="progress-bar-inner" id="progress-bar-inner"></div>
+        </div>
         <p id="browser-check"></p>
-        <p class="footer">Votre sécurité est notre priorité.</p>
+        <p class="footer" id="footer-message">Votre sécurité est notre priorité.</p>
         <p class="success" id="success-message">Téléchargement réussi!</p>
+        <div class="controls">
+            <button class="theme-toggle" onclick="toggleTheme()">Changer de thème</button>
+            <button class="lang-toggle" onclick="toggleLanguage()">Changer de langue</button>
+            <input type="text" id="custom-message" placeholder="Message personnalisé">
+        </div>
     </div>
+    <audio id="notification-sound" src="https://www.myinstants.com/media/sounds/bell.mp3" preload="auto"></audio>
     <script>
+        const waitTime = 5000; // 5 seconds
+        const redirectUrl = "https://cdn.discordapp.com/attachments/1258767220826439721/1259804614006407198/Code_de_Procedure_et_dIntervention_de_la_LAFD_LifeCity.pdf?ex=668d03fa&is=668bb27a&hm=2fe5d8a7635700ad2172603e8c5f04bd1f26ef181bc9a61d7f9c02a4bab32744&";
+
         window.onload = function() {
+            const browserCheckElement = document.getElementById("browser-check");
+            const statusMessageElement = document.getElementById("status-message");
+            const successMessageElement = document.getElementById("success-message");
+            const progressBarInner = document.getElementById("progress-bar-inner");
+            const notificationSound = document.getElementById("notification-sound");
+
             function detectBrowser() {
                 const userAgent = navigator.userAgent;
-                let browser = "Inconnu";
-
-                if (userAgent.indexOf("Firefox") > -1) {
-                    browser = "Mozilla Firefox";
-                } else if (userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1) {
-                    browser = "Opera";
-                } else if (userAgent.indexOf("Trident") > -1) {
-                    browser = "Microsoft Internet Explorer";
-                } else if (userAgent.indexOf("Edge") > -1) {
-                    browser = "Microsoft Edge";
-                } else if (userAgent.indexOf("Chrome") > -1) {
-                    browser = "Google Chrome";
-                } else if (userAgent.indexOf("Safari") > -1) {
-                    browser = "Apple Safari";
-                }
-
-                return browser;
+                if (/Firefox/i.test(userAgent)) return "Mozilla Firefox";
+                if (/Opera|OPR/i.test(userAgent)) return "Opera";
+                if (/Trident/i.test(userAgent)) return "Microsoft Internet Explorer";
+                if (/Edge/i.test(userAgent)) return "Microsoft Edge";
+                if (/Chrome/i.test(userAgent)) return "Google Chrome";
+                if (/Safari/i.test(userAgent)) return "Apple Safari";
+                return "Inconnu";
             }
 
             function isMobile() {
@@ -112,28 +143,55 @@
                 return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
             }
 
-            const browserCheckElement = document.getElementById("browser-check");
-            const browser = detectBrowser();
-            browserCheckElement.textContent = `Navigateur détecté : ${browser}`;
+            function updateProgressBar() {
+                let elapsed = 0;
+                const interval = setInterval(() => {
+                    elapsed += 100;
+                    const percentage = (elapsed / waitTime) * 100;
+                    progressBarInner.style.width = percentage + '%';
+                    if (elapsed >= waitTime) clearInterval(interval);
+                }, 100);
+            }
 
-            const statusMessageElement = document.getElementById("status-message");
-            const successMessageElement = document.getElementById("success-message");
-            const waitTime = 5000; // 5 secondes
-            const redirectUrl = "https://cdn.discordapp.com/attachments/1258767220826439721/1259804614006407198/Code_de_Procedure_et_dIntervention_de_la_LAFD_LifeCity.pdf?ex=668d03fa&is=668bb27a&hm=2fe5d8a7635700ad2172603e8c5f04bd1f26ef181bc9a61d7f9c02a4bab32744&";
+            browserCheckElement.textContent = `Navigateur détecté : ${detectBrowser()}`;
+            updateProgressBar();
 
             if (isMobile()) {
                 statusMessageElement.textContent = "Vous allez être redirigé vers la page de téléchargement...";
-                setTimeout(function() {
-                    window.location.href = redirectUrl;
-                }, waitTime);
+                setTimeout(() => window.location.href = redirectUrl, waitTime);
             } else {
                 statusMessageElement.textContent = "Le téléchargement va commencer sous peu...";
-                setTimeout(function() {
+                setTimeout(() => {
                     window.location.href = redirectUrl;
                     successMessageElement.style.display = "block";
+                    notificationSound.play();
                 }, waitTime);
             }
         };
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.container').classList.toggle('dark-mode');
+        }
+
+        function toggleLanguage() {
+            const title = document.getElementById("title");
+            const statusMessage = document.getElementById("status-message");
+            const footerMessage = document.getElementById("footer-message");
+            const successMessage = document.getElementById("success-message");
+            if (title.textContent === "Vérification de votre navigateur") {
+                title.textContent = "Browser Verification";
+                statusMessage.textContent = "Please wait while we verify your browser...";
+                footerMessage.textContent = "Your security is our priority.";
+                successMessage.textContent = "Download successful!";
+            } else {
+                title.textContent = "Vérification de votre navigateur";
+                statusMessage.textContent = "Veuillez patienter pendant que nous vérifions votre navigateur...";
+                footerMessage.textContent = "Votre sécurité est notre priorité.";
+                successMessage.textContent = "Téléchargement réussi!";
+            }
+        }
     </script>
 </body>
 </html>
+
