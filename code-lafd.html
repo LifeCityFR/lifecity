@@ -18,12 +18,6 @@
             background-color: #fff;
             color: #000;
             overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        body.dark-mode {
-            background-color: #333;
-            color: #f9f9f9;
         }
 
         nav {
@@ -73,17 +67,6 @@
             color: #fff;
         }
 
-        header button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            animation: bounceIn 2s;
-        }
-
         .container {
             padding: 20px;
             text-align: center;
@@ -109,7 +92,7 @@
             color: transparent;
         }
 
-        .footer {
+        footer {
             background-color: #f8f9fa;
             text-align: center;
             padding: 20px;
@@ -132,43 +115,22 @@
             color: transparent;
         }
 
-        .progress-bar {
-            width: 100%;
-            background-color: #f3f3f3;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .progress-bar-inner {
-            height: 20px;
-            width: 0;
+        .bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
             background-color: #3498db;
-            transition: width 1s linear;
+            color: white;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            animation: fadeInUp 2s;
         }
 
-        .controls {
-            margin: 20px 0;
-        }
-
-        .theme-toggle, .lang-toggle {
-            margin: 10px;
-            cursor: pointer;
-        }
-
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .bubble span {
+            margin-left: 10px;
         }
 
         @keyframes fadeInDown {
@@ -192,60 +154,6 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes bounceIn {
-            from, 20%, 40%, 60%, 80%, to {
-                animation-timing-function: cubic-bezier(.215,.61,.355,1);
-            }
-            0% {
-                opacity: 0;
-                transform: scale3d(.3,.3,.3);
-            }
-            20% {
-                transform: scale3d(1.1,1.1,1.1);
-            }
-            40% {
-                transform: scale3d(.9,.9,.9);
-            }
-            60% {
-                opacity: 1;
-                transform: scale3d(1.03,1.03,1.03);
-            }
-            80% {
-                transform: scale3d(.97,.97,.97);
-            }
-            to {
-                opacity: 1;
-                transform: scale3d(1,1,1);
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav .menu {
-                display: none;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            nav .menu ul {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            nav .menu ul li {
-                margin: 10px 0;
-            }
-            nav .menu ul li ul {
-                position: static;
-            }
-            nav .menu-toggle {
-                display: block;
-            }
-        }
-
-        .link-button.disabled {
-            pointer-events: none;
-            opacity: 0.5;
-        }
-
     </style>
 </head>
 <body>
@@ -257,21 +165,14 @@
         <p>Veuillez patienter pendant que nous vérifions votre navigateur...</p>
     </header>
     <div class="container">
-        <div class="controls">
-            <button class="theme-toggle" onclick="toggleTheme()">Changer le thème</button>
-            <button class="lang-toggle" onclick="toggleLanguage()">Changer de langue</button>
-        </div>
         <div class="section">
             <h2>Progression</h2>
-            <div class="progress-bar">
-                <div class="progress-bar-inner" id="progressBar"></div>
-            </div>
+            <p>Votre navigateur est en cours de vérification.</p>
         </div>
-        <div class="section">
-            <h2>Heure actuelle</h2>
-            <p id="currentTime"></p>
-        </div>
-        <div class="loader"></div>
+    </div>
+    <div class="bubble">
+        <img src="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&" alt="Logo" width="30">
+        <span>Redirection en cours...</span>
     </div>
     <footer class="footer">
         <div class="footer-links">
@@ -280,78 +181,12 @@
         </div>
         <p>&copy; 2024 LifeCity. Tous droits réservés.</p>
     </footer>
-
     <script>
-        let currentLang = 'fr';
-        const progressBar = document.getElementById('progressBar');
-        let progress = 0;
-
-        function updateProgress() {
-            if (progress < 100) {
-                progress += 1;
-                progressBar.style.width = progress + '%';
-            } else {
-                clearInterval(progressInterval);
-                showNotification();
-                setTimeout(() => {
-                    window.location.href = 'https://lifecityfr.github.io/lifecity/code-lafd.html';
-                }, 5000);
-            }
+        function redirectToTarget() {
+            window.location.href = 'https://lifecityfr.github.io/lifecity/code-lafd.html';
         }
 
-        const progressInterval = setInterval(updateProgress, 100);
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        function toggleLanguage() {
-            if (currentLang === 'fr') {
-                currentLang = 'en';
-                document.querySelector('header h1').textContent = 'Browser Verification';
-                document.querySelector('header p').textContent = 'Please wait while we verify your browser...';
-                document.querySelector('.theme-toggle').textContent = 'Change Theme';
-                document.querySelector('.lang-toggle').textContent = 'Change Language';
-            } else {
-                currentLang = 'fr';
-                document.querySelector('header h1').textContent = 'Vérification de votre navigateur';
-                document.querySelector('header p').textContent = 'Veuillez patienter pendant que nous vérifions votre navigateur...';
-                document.querySelector('.theme-toggle').textContent = 'Changer le thème';
-                document.querySelector('.lang-toggle').textContent = 'Changer de langue';
-            }
-        }
-
-        function showNotification() {
-            if (Notification.permission === 'granted') {
-                new Notification('Redirection', {
-                    body: 'Vous allez être redirigé sous peu.',
-                    icon: 'https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png'
-                });
-            }
-        }
-
-        if (Notification.permission !== 'denied') {
-            Notification.requestPermission();
-        }
-
-        function playSound() {
-            const audio = new Audio('notification.mp3');
-            audio.play();
-        }
-
-        function showCurrentTime() {
-            const now = new Date();
-            const formattedTime = now.toLocaleTimeString();
-            document.getElementById('currentTime').textContent = formattedTime;
-        }
-
-        setInterval(showCurrentTime, 1000);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            playSound();
-            showCurrentTime();
-        });
+        setTimeout(redirectToTarget, 5000);
     </script>
 </body>
 </html>
-
