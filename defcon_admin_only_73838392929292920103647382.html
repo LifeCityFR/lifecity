@@ -28,7 +28,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
             width: 90%;
-            max-width: 400px;
+            max-width: 800px;
             animation: fadeIn 2s;
         }
         .defcon-header {
@@ -99,6 +99,57 @@
         .btn-red:hover { background-color: #e53935; }
         .btn-black:hover { background-color: #000; }
 
+        .history {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .history h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .history ul li {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .admin-dashboard {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .admin-dashboard h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .admin-dashboard .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .admin-dashboard .stat {
+            background: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .alert {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 5px;
+            display: none;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -150,167 +201,95 @@
             </div>
         </div>
         <div class="defcon-button">
-            <button class="btn-green" onclick="setDefconLevel('green')">Vert</button>
-            <button class="btn-yellow" onclick="setDefconLevel('yellow')">Jaune</button>
-            <button class="btn-orange" onclick="setDefconLevel('orange')">Orange</button>
-            <button class="btn-red" onclick="setDefconLevel('red')">Rouge</button>
-            <button class="btn-black" onclick="setDefconLevel('black')">Noir</button>
+            <button class="btn-green" onclick="changeDefcon('green')">Code VERT</button>
+            <button class="btn-yellow" onclick="changeDefcon('yellow')">Code JAUNE</button>
+            <button class="btn-orange" onclick="changeDefcon('orange')">Code ORANGE</button>
+            <button class="btn-red" onclick="changeDefcon('red')">Code ROUGE</button>
+            <button class="btn-black" onclick="changeDefcon('black')">Code NOIR</button>
+        </div>
+        <div class="history">
+            <h2>Historique des changements de niveau DefCon</h2>
+            <ul id="history-list">
+                <!-- L'historique des changements de niveau sera ajouté dynamiquement ici -->
+            </ul>
+        </div>
+        <div class="admin-dashboard">
+            <h2>Tableau de bord admin</h2>
+            <div class="stats">
+                <div class="stat">
+                    <h3>Total de changements de niveau</h3>
+                    <p id="total-changes">0</p>
+                </div>
+                <div class="stat">
+                    <h3>Dernier changement</h3>
+                    <p id="last-change">Aucun changement</p>
+                </div>
+            </div>
+        </div>
+        <div class="alert" id="alert-message">
+            Attention : Changement de niveau DefCon en cours !
         </div>
     </div>
 
     <script>
-        function setDefconLevel(level) {
+        // Initialisation des variables pour l'historique et le dernier changement
+        let changeHistory = [];
+        let totalChanges = 0;
+
+        // Fonction pour changer le niveau DefCon
+        function changeDefcon(level) {
             const levels = ['green', 'yellow', 'orange', 'red', 'black'];
+
+            // Masquer tous les niveaux
             levels.forEach(l => {
-                const el = document.getElementById(`defcon-${l}`);
-                if (l === level) {
-                    el.classList.remove('hidden');
-                    el.classList.add('active');
-                } else {
-                    el.classList.add('hidden');
-                    el.classList.remove('active');
-                }
+                document.getElementById(`defcon-${l}`).classList.add('hidden');
             });
 
-            const defconMessages = {
-                green: {
-                    color: 0x4caf50,
-                    title: 'Code VERT',
-                    description: 'Aucun problème et aucun danger.',
-                    fields: [
-                        {
-                            name: 'LAPD',
-                            value: 'Les patrouilles de police peuvent patrouiller normalement.'
-                        },
-                        {
-                            name: 'LAFD',
-                            value: 'Les secouristes peuvent intervenir normalement.'
-                        },
-                        {
-                            name: 'LADOT',
-                            value: 'Les opérateurs peuvent opérer normalement.'
-                        }
-                    ],
-                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084647581880392/CODE_-_1.png?ex=668a6574&is=668913f4&hm=e23f7d4d39bba283b27eefc8185b7dbc726ffae918b30f6a85490515bd29ada1&=&format=webp&quality=lossless&width=1440&height=480'
-                },
-                yellow: {
-                    color: 0xffeb3b,
-                    title: 'Code JAUNE',
-                    description: 'Quelques petites interventions basiques.',
-                    fields: [
-                        {
-                            name: 'LAPD',
-                            value: 'Les patrouilles de police patrouillent normalement.'
-                        },
-                        {
-                            name: 'LAFD',
-                            value: 'Les secouristes peuvent intervenir normalement.'
-                        },
-                        {
-                            name: 'LADOT',
-                            value: 'Les opérateurs peuvent opérer normalement.'
-                        }
-                    ],
-                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084737422491770/CODE_-_2.png?ex=668a6d74&is=66891df4&hm=0e3c12869c74f0aa2894cb19ef94b787b680202f04c92b23a07fa0ebd97a9a9a&=&format=webp&quality=lossless&width=1440&height=480'
-                },
-                orange: {
-                    color: 0xff9800,
-                    title: 'Code ORANGE',
-                    description: 'Interventions à risques élevés.',
-                    fields: [
-                        {
-                            name: 'LAPD',
-                            value: 'Les patrouilles peuvent contrôler les véhicules sans raisons précises. Le SWAT et le GANG UNIT peuvent patrouiller.'
-                        },
-                        {
-                            name: 'LAFD',
-                            value: 'Les secouristes doivent opérer avec prudence accrue.'
-                        },
-                        {
-                            name: 'LADOT',
-                            value: 'Les opérateurs doivent se coordonner avec les forces de l\'ordre.'
-                        }
-                    ],
-                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084833891481701/CODE_-_3.png?ex=668a75f4&is=66892674&hm=4a30d2d64ef99935167e6791c393b2bc10dcf7c0deffccbc49102b3edc273f26&=&format=webp&quality=lossless&width=1440&height=480'
-                },
-                red: {
-                    color: 0xf44336,
-                    title: 'Code ROUGE',
-                    description: 'Grosse quantité d\'interventions à haut risques.',
-                    fields: [
-                        {
-                            name: 'LAPD',
-                            value: 'Les patrouilles peuvent fouiller et contrôler tous les véhicules et civils correspondant à un suspect sans motifs.'
-                        },
-                        {
-                            name: 'LAFD',
-                            value: 'Les secouristes doivent intervenir avec une extrême prudence.'
-                        },
-                        {
-                            name: 'LADOT',
-                            value: 'Les opérateurs doivent se préparer à des situations d\'urgence.'
-                        }
-                    ],
-                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084903616847972/CODE_-_4.png?ex=668a7df4&is=66892e74&hm=09d666225ab27d3e3f631c6b8e13e04783e12426a35bc1f5d0e93df0bdf9bfa2&=&format=webp&quality=lossless&width=1440&height=480'
-                },
-                black: {
-                    color: 0x212121,
-                    title: 'Code NOIR',
-                    description: 'Danger extrême pour les citoyens/policiers.',
-                    fields: [
-                        {
-                            name: 'LAPD',
-                            value: 'Exemple : Attaque terroriste, alerte à la bombe, etc.'
-                        },
-                        {
-                            name: 'LAFD',
-                            value: 'Les secouristes doivent être prêts pour des interventions de crise majeures.'
-                        },
-                        {
-                            name: 'LADOT',
-                            value: 'Les opérateurs doivent coordonner les réponses d\'urgence.'
-                        }
-                    ],
-                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084948883271840/CODE_-_5.png?ex=668a85f4&is=66893674&hm=9ff2a79f4846b76c4ab4d08a4ae27e0639d4b20125fe103ae89c0ac28f7b56e7&=&format=webp&quality=lossless&width=1440&height=480'
-                }
+            // Afficher le niveau sélectionné
+            document.getElementById(`defcon-${level}`).classList.remove('hidden');
+
+            // Ajouter au début de l'historique
+            const now = new Date();
+            const change = {
+                level: level.toUpperCase(),
+                timestamp: now.toLocaleString()
             };
+            changeHistory.unshift(change);
 
-            const selectedMessage = defconMessages[level];
-            if (selectedMessage) {
-                // Configuration du webhook
-                const webhookUrl = 'https://discord.com/api/webhooks/1257752996890771468/RSTwH_TesFYXlppO8C_gWABtbofUUIgg2S3fbtZ1VobmTQ9uKgFqRrVbS_RMeJbd8HjM';
-                const payload = {
-                    embeds: [
-                        {
-                            title: selectedMessage.title,
-                            description: selectedMessage.description,
-                            color: selectedMessage.color,
-                            fields: selectedMessage.fields,
-                            image: {
-                                url: selectedMessage.banner
-                            }
-                        }
-                    ]
-                };
+            // Mettre à jour l'affichage de l'historique
+            updateHistory();
 
-                // Envoi de la requête POST
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                }).then(response => {
-                    if (response.ok) {
-                        console.log('Message envoyé avec succès sur Discord.');
-                    } else {
-                        console.error('Erreur lors de l\'envoi du message sur Discord:', response.statusText);
-                    }
-                }).catch(error => {
-                    console.error('Erreur lors de l\'envoi du message sur Discord:', error);
-                });
-            }
+            // Mettre à jour le nombre total de changements
+            totalChanges++;
+            document.getElementById('total-changes').textContent = totalChanges;
+
+            // Mettre à jour le dernier changement
+            document.getElementById('last-change').textContent = change.timestamp;
+
+            // Afficher le message d'alerte
+            const alertMessage = document.getElementById('alert-message');
+            alertMessage.style.display = 'block';
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 3000); // Masquer après 3 secondes
         }
+
+        // Fonction pour mettre à jour l'affichage de l'historique
+        function updateHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = ''; // Effacer l'ancien contenu
+
+            // Ajouter chaque élément de l'historique à la liste
+            changeHistory.forEach(change => {
+                const li = document.createElement('li');
+                li.textContent = `${change.timestamp} - ${change.level}`;
+                historyList.appendChild(li);
+            });
+        }
+
+        // Exemple de changement initial au niveau vert
+        changeDefcon('green');
     </script>
 </body>
 </html>
+
