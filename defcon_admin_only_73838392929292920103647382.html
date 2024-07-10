@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <meta property="og:url" content="https://lifecityfr.github.io/lifecity/defcon_admin_only_73838392929292920103647382.html">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571">
-    <meta property="og:site_name" content="LifeCity">
+    <meta property="og:site_name" content="LifeCity"> 
     <title>DefCon</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -28,8 +28,12 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
             width: 90%;
-            max-width: 800px;
-            animation: fadeIn 2s;
+            max-width: 400px;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .defcon-header {
             margin-bottom: 20px;
@@ -37,11 +41,6 @@
         .defcon-header h1 {
             margin: 0;
             font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
-            -webkit-background-clip: text;
-            color: transparent;
         }
         .defcon-level {
             margin: 10px 0;
@@ -52,7 +51,7 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
         .defcon-level i {
             margin-right: 10px;
@@ -86,7 +85,10 @@
             cursor: pointer;
             color: #fff;
             font-size: 16px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .defcon-button button:hover {
+            transform: translateY(-2px);
         }
         .btn-green { background-color: #4caf50; }
         .btn-yellow { background-color: #ffeb3b; color: #000; }
@@ -99,65 +101,52 @@
         .btn-red:hover { background-color: #e53935; }
         .btn-black:hover { background-color: #000; }
 
-        .history {
-            margin-top: 20px;
-            text-align: left;
-        }
-        .history h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        .history ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .history ul li {
-            background: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .admin-dashboard {
-            margin-top: 30px;
-            text-align: left;
-        }
-        .admin-dashboard h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        .admin-dashboard .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .admin-dashboard .stat {
-            background: #f9f9f9;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .alert {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f44336;
-            color: white;
-            border-radius: 5px;
+        /* Modal Styles */
+        .modal {
             display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+            border-radius: 10px;
         }
+        .modal-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .modal-content .modal-buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn-confirm { background-color: #4caf50; color: #fff; }
+        .btn-cancel { background-color: #f44336; color: #fff; }
+        .btn-confirm:hover { background-color: #388e3c; }
+        .btn-cancel:hover { background-color: #e53935; }
     </style>
 </head>
 <body>
@@ -201,95 +190,212 @@
             </div>
         </div>
         <div class="defcon-button">
-            <button class="btn-green" onclick="changeDefcon('green')">Code VERT</button>
-            <button class="btn-yellow" onclick="changeDefcon('yellow')">Code JAUNE</button>
-            <button class="btn-orange" onclick="changeDefcon('orange')">Code ORANGE</button>
-            <button class="btn-red" onclick="changeDefcon('red')">Code ROUGE</button>
-            <button class="btn-black" onclick="changeDefcon('black')">Code NOIR</button>
+            <button class="btn-green" onclick="confirmDefconChange('green')">Vert</button>
+            <button class="btn-yellow" onclick="confirmDefconChange('yellow')">Jaune</button>
+            <button class="btn-orange" onclick="confirmDefconChange('orange')">Orange</button>
+            <button class="btn-red" onclick="confirmDefconChange('red')">Rouge</button>
+            <button class="btn-black" onclick="confirmDefconChange('black')">Noir</button>
         </div>
-        <div class="history">
-            <h2>Historique des changements de niveau DefCon</h2>
-            <ul id="history-list">
-                <!-- L'historique des changements de niveau sera ajouté dynamiquement ici -->
-            </ul>
-        </div>
-        <div class="admin-dashboard">
-            <h2>Tableau de bord admin</h2>
-            <div class="stats">
-                <div class="stat">
-                    <h3>Total de changements de niveau</h3>
-                    <p id="total-changes">0</p>
-                </div>
-                <div class="stat">
-                    <h3>Dernier changement</h3>
-                    <p id="last-change">Aucun changement</p>
-                </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <p>Confirmez-vous le changement de niveau DefCon ?</p>
+            <div class="modal-buttons">
+                <button class="btn-confirm" onclick="changeDefcon()">Confirmer</button>
+                <button class="btn-cancel" onclick="closeModal()">Annuler</button>
             </div>
-        </div>
-        <div class="alert" id="alert-message">
-            Attention : Changement de niveau DefCon en cours !
         </div>
     </div>
 
     <script>
-        // Initialisation des variables pour l'historique et le dernier changement
-        let changeHistory = [];
-        let totalChanges = 0;
+        let selectedDefcon = '';
 
-        // Fonction pour changer le niveau DefCon
-        function changeDefcon(level) {
+        function confirmDefconChange(defcon) {
+            selectedDefcon = defcon;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        async function changeDefcon() {
+            const defconLevels = document.querySelectorAll('.defcon-level');
+            defconLevels.forEach(level => {
+                level.classList.add('hidden');
+                level.classList.remove('active');
+            });
+
+            const newDefcon = document.getElementById('defcon-' + selectedDefcon);
+            newDefcon.classList.remove('hidden');
+            newDefcon.classList.add('active');
+
+            await setDefconLevel(selectedDefcon);
+            closeModal();
+        }
+
+        async function setDefconLevel(level) {
             const levels = ['green', 'yellow', 'orange', 'red', 'black'];
-
-            // Masquer tous les niveaux
             levels.forEach(l => {
-                document.getElementById(`defcon-${l}`).classList.add('hidden');
+                const el = document.getElementById(`defcon-${l}`);
+                if (l === level) {
+                    el.classList.remove('hidden');
+                    el.classList.add('active');
+                } else {
+                    el.classList.add('hidden');
+                    el.classList.remove('active');
+                }
             });
 
-            // Afficher le niveau sélectionné
-            document.getElementById(`defcon-${level}`).classList.remove('hidden');
-
-            // Ajouter au début de l'historique
-            const now = new Date();
-            const change = {
-                level: level.toUpperCase(),
-                timestamp: now.toLocaleString()
+            const defconMessages = {
+                green: {
+                    color: 0x4caf50,
+                    title: 'Code VERT',
+                    description: 'Aucun problème et aucun danger.',
+                    fields: [
+                        {
+                            name: 'LAPD',
+                            value: 'Les patrouilles de police peuvent patrouiller normalement.'
+                        },
+                        {
+                            name: 'LAFD',
+                            value: 'Les secouristes peuvent intervenir normalement.'
+                        },
+                        {
+                            name: 'LADOT',
+                            value: 'Les opérateurs peuvent opérer normalement.'
+                        }
+                    ],
+                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084647581880392/CODE_-_1.png?ex=668a6574&is=668913f4&hm=e23f7d4d39bba283b27eefc8185b7dbc726ffae918b30f6a85490515bd29ada1&=&format=webp&quality=lossless&width=1440&height=480'
+                },
+                yellow: {
+                    color: 0xffeb3b,
+                    title: 'Code JAUNE',
+                    description: 'Attention modérée.',
+                    fields: [
+                        {
+                            name: 'LAPD',
+                            value: 'Quelques petites interventions basiques. Les patrouilles de police patrouillent normalement.'
+                        },
+                        {
+                            name: 'LAFD',
+                            value: 'Préparation pour des interventions potentielles.'
+                        },
+                        {
+                            name: 'LADOT',
+                            value: 'Surveillance accrue des infrastructures.'
+                        }
+                    ],
+                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084646810124368/CODE_-_2.png?ex=668a6574&is=668913f4&hm=888f7947204288578e4ff17b25a67484b31d63079b689c34b9c3c982f02b0801&=&format=webp&quality=lossless&width=1440&height=480'
+                },
+                orange: {
+                    color: 0xff9800,
+                    title: 'Code ORANGE',
+                    description: 'Risque élevé.',
+                    fields: [
+                        {
+                            name: 'LAPD',
+                            value: 'Interventions à risques élevés. Les patrouilles peuvent contrôler les véhicules sans raisons précises. Le SWAT et le GANG UNIT peuvent patrouiller.'
+                        },
+                        {
+                            name: 'LAFD',
+                            value: 'Préparation pour des interventions urgentes.'
+                        },
+                        {
+                            name: 'LADOT',
+                            value: 'Surveillance et sécurisation des points stratégiques.'
+                        }
+                    ],
+                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084645992239174/CODE_-_3.png?ex=668a6574&is=668913f4&hm=794fc7c8dd95a9fea8e2b63c2319a72177d27e0409df89fe86c3da472b9e9d84&=&format=webp&quality=lossless&width=1440&height=480'
+                },
+                red: {
+                    color: 0xf44336,
+                    title: 'Code ROUGE',
+                    description: 'Urgence maximale.',
+                    fields: [
+                        {
+                            name: 'LAPD',
+                            value: 'Grosse quantité d\'interventions à haut risques. Les patrouilles peuvent fouiller et contrôler tous les véhicules et civils correspondant à un suspect sans motifs.'
+                        },
+                        {
+                            name: 'LAFD',
+                            value: 'Déploiement maximum pour gérer les urgences.'
+                        },
+                        {
+                            name: 'LADOT',
+                            value: 'Sécurisation des infrastructures critiques et coordination avec les forces de l\'ordre.'
+                        }
+                    ],
+                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084645438459964/CODE_-_4.png?ex=668a6574&is=668913f4&hm=2586ba7fbd552181930db17e4a48f2502f32ad236ba01a16ba42b9dbbe5bece1&=&format=webp&quality=lossless&width=1440&height=480'
+                },
+                black: {
+                    color: 0x212121,
+                    title: 'Code NOIR',
+                    description: 'Danger extrême.',
+                    fields: [
+                        {
+                            name: 'LAPD',
+                            value: 'Danger extrême pour les citoyens/policiers. Exemple : Attaque terroriste, alerte à la bombe, etc. Déploiement complet de toutes les unités disponibles.'
+                        },
+                        {
+                            name: 'LAFD',
+                            value: 'Intervention en situations de crise extrême.'
+                        },
+                        {
+                            name: 'LADOT',
+                            value: 'Fermeture et contrôle total des infrastructures.'
+                        }
+                    ],
+                    banner: 'https://media.discordapp.net/attachments/1233342586274447523/1259084644905910304/CODE_-_5.png?ex=668a6574&is=668913f4&hm=9be650df9a57aed990d67617b2befcae27cd854695fc6e92d14f6372e475c339&=&format=webp&quality=lossless&width=1440&height=480'
+                }
             };
-            changeHistory.unshift(change);
 
-            // Mettre à jour l'affichage de l'historique
-            updateHistory();
+            const webhooks = [
+                {
+                    url: 'https://discord.com/api/webhooks/1259071953122365511/h49GYe0RTSsd2TUFTjAywPGdR-fMBGbnuCtWesnZcJfgPe2SvMiciMnXK0FehqQ9zl5k',
+                    messageId: '1259542075691503686'
+                },
+                {
+                    url: 'https://discord.com/api/webhooks/1259076219211612201/FwYpa0CwD-2_7Id4kSC7FQNgEXvvPRDhe80cudxfazwaYgm1qMkmhptRays9E860g12Y',
+                    messageId: '1259541731272294401'
+                }
+            ];
 
-            // Mettre à jour le nombre total de changements
-            totalChanges++;
-            document.getElementById('total-changes').textContent = totalChanges;
+            const payload = {
+                embeds: [
+                    {
+                        color: defconMessages[level].color,
+                        title: defconMessages[level].title,
+                        description: defconMessages[level].description,
+                        timestamp: new Date().toISOString(),
+                        author: {
+                            name: 'Département de Police de Los Angeles (LAPD)',
+                            icon_url: 'https://media.discordapp.net/ephemeral-attachments/1199329039576465432/1259164935997358091/IMG_4157.png?ex=668b58fa&is=668a077a&hm=d8faad0fe4715a204246357e0e82ef03f3641c6a779036c791a0c8f1f8f17576&=&format=webp&quality=lossless&width=576&height=571'
+                        },
+                        footer: {
+                            text: 'Envoyé par le Département de Police de Los Angeles (LAPD)',
+                            icon_url: 'https://media.discordapp.net/ephemeral-attachments/1199329039576465432/1259164935997358091/IMG_4157.png?ex=668b58fa&is=668a077a&hm=d8faad0fe4715a204246357e0e82ef03f3641c6a779036c791a0c8f1f8f17576&=&format=webp&quality=lossless&width=576&height=571'
+                        },
+                        image: {
+                            url: defconMessages[level].banner
+                        },
+                        fields: defconMessages[level].fields
+                    }
+                ]
+            };
 
-            // Mettre à jour le dernier changement
-            document.getElementById('last-change').textContent = change.timestamp;
-
-            // Afficher le message d'alerte
-            const alertMessage = document.getElementById('alert-message');
-            alertMessage.style.display = 'block';
-            setTimeout(() => {
-                alertMessage.style.display = 'none';
-            }, 3000); // Masquer après 3 secondes
+            for (const webhook of webhooks) {
+                await fetch(`${webhook.url}/messages/${webhook.messageId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+            }
         }
-
-        // Fonction pour mettre à jour l'affichage de l'historique
-        function updateHistory() {
-            const historyList = document.getElementById('history-list');
-            historyList.innerHTML = ''; // Effacer l'ancien contenu
-
-            // Ajouter chaque élément de l'historique à la liste
-            changeHistory.forEach(change => {
-                const li = document.createElement('li');
-                li.textContent = `${change.timestamp} - ${change.level}`;
-                historyList.appendChild(li);
-            });
-        }
-
-        // Exemple de changement initial au niveau vert
-        changeDefcon('green');
     </script>
 </body>
 </html>
-
