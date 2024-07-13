@@ -32,19 +32,30 @@ body {
     color: #000;
     overflow-x: hidden;
 }
+     
+   .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            color: white;
+            padding: 10px 20px;
+box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
 
-nav {
-    background-color: #f8f9fa;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    top: 0;
-    z-index: 1000;
-    position: sticky;
-}
+        .navbar .site-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
 
-nav .logo {
+        .navbar .menu-btn {
+            font-size: 1.5em;
+            cursor: pointer;
+color: #000;
+        }
+
+
+.logo {
     font-size: 24px;
     font-weight: bold;
     background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
@@ -282,12 +293,87 @@ footer .footer-links a:hover {
     pointer-events: none;
     opacity: 0.5;
 }
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            overflow-x: hidden;
+            transition: width 0.5s ease;
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: #000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: ##fff;
+        }
+
+        .sidebar a .icon {
+            margin-right: 10px;
+        }
+
+        .sidebar a.selected::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #00f;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .sidebar .logo img {
+            display: block;
+            margin: 0 auto 20px;
+border-radius: 10px;
+            width: 80px;
+            height: auto;
+        }
+
+        .sidebar .subtitle {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #000;
+font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+    -webkit-background-clip: text;
+    color: transparent
+        }
     </style>
 </head>
 <body>
-    <nav>
+
+    <div id="sidebar" class="sidebar animate__animated animate__fadeInLeft">
+        <div class="logo"><img src="https://media.discordapp.net/attachments/1258410560194740254/1261785296039710873/L.png?ex=669438a1&is=6692e721&hm=3cc72797b058092ce0aa86b2b79f2835f0ed51a4f1daccb9f4fc43af9300070a&" alt="LiveCity Logo"></div>
+        <div class="subtitle">LIFECITY</div>
+        <a href="lapd.html" class="nav-link"><i class="fas fa-shield-alt icon"></i> Rejoindre la LAPD</a>
+        <a href="lafd.html" class="nav-link"><i class="fas fa-fire-alt icon"></i> Rejoindre la LAFD</a>
+        <a href="ladot.html" class="nav-link"><i class="fas fa-road icon"></i> Rejoindre la LADOT</a>
+        <a href="mafia.html" class="nav-link"><i class="fas fa-user-secret icon"></i> Déclarer sa Mafia</a>
+        <a href="entreprise.html" class="nav-link"><i class="fas fa-building icon"></i> Déclarer son Entreprise</a>
+    </div>
+
+    <div class="navbar">
         <div class="logo">LIFECITY</div>
-</nav>
+        <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+    </div>
+</div>
+
+
 <div class="container">
     <header>
         <h1>BIENVENUE SUR LE SITE DU GOUVERNEMENT DE LIFECITY</h1>
@@ -374,6 +460,15 @@ footer .footer-links a:hover {
         const decryptedURL = decryptURL(encryptedDiscordURL);
         window.location.href = decryptedURL;
     }
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
+        }
     </script>
 </body>
 </html>
