@@ -42,24 +42,36 @@ body {
     color: var(--main-text-color);
 }
 
-nav {
-    background-color: #f8f9fa;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+   .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            color: white;
+            padding: 10px 20px;
+box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
 
-nav .logo {
+        .navbar .site-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar .menu-btn {
+            font-size: 1.5em;
+            cursor: pointer;
+color: #000;
+        }
+
+
+.logo {
     font-size: 24px;
     font-weight: bold;
-    background: var(--accent-color);
+    background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
     -webkit-background-clip: text;
     color: transparent;
 }
+
 
 header {
     background-image: url('https://policeroleplay.community/_next/static/media/splash-optimised.3a1b2560.gif');
