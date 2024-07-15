@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+     <meta property="og:title" content="Candidature pour créer une mafia">
+   <meta property="og:description" content="Découvrez le site gouvernemental de LifeCity et postuler pour créer votre mafia">
+   <meta property="og:url" content="https://lifecityfr.github.io/lifecity/">
+   <meta property="og:type" content="website">
+   <meta property="og:image" content="https://cdn.discordapp.com/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&">
+   <meta property="og:site_name" content="LifeCity"> 
+   <link rel="icon" href="https://cdn.discordapp.com/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&" type="image/png">
+
+
+   <!-- Apple Touch Icon for iOS -->
+   <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.discordapp.com/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&">
+   <meta name="apple-mobile-web-app-title" content="LifeCity">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+   <!-- Android settings -->
+   <link rel="icon" sizes="192x192" href="https://cdn.discordapp.com/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&">
+   <link rel="manifest" href="https://example.com/path/to/site.webmanifest">
+   <meta name="theme-color" content="#ffffff"> 
+    <title>Postuler pour le poste d'agent de la LAPD - LifeCity</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root {
+    --main-bg-color: #fff;
+    --main-text-color: #000;
+    --accent-color: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+    --error-color: #ff4d4d;
+    --success-color: #4caf50;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+}
+
+   .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            color: white;
+            padding: 10px 20px;
+box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar .site-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar .menu-btn {
+            font-size: 1.5em;
+            cursor: pointer;
+color: #000;
+        }
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+header {
+    background-image: url('https://policeroleplay.community/_next/static/media/splash-optimised.3a1b2560.gif');
+    background-size: cover;
+    background-position: center;
+   border-radius: 10px;
+    text-align: center;
+    padding: 100px 20px;
+    color: var(--main-text-color);
+}
+
+header h1 {
+    font-size: 40px;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: fadeInDown 2s;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+}
+
+header p {
+    font-size: 20px;
+    margin: 20px 0;
+    animation: fadeInUp 2s;
+    -webkit-background-clip: text;
+    color: #fff;
+}
+
+.container {
+    padding: 20px;
+}
+
+.section {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 2s;
+}
+
+.section h2 {
+    margin-top: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.section h2 i {
+    margin-right: 10px;
+}
+
+.job-details {
+    display: flex;
+    align-items: center;
+}
+
+.job-details img {
+    max-width: 100px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+
+.form-section {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 2s;
+}
+
+.form-section h2 {
+    margin-top: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: var(--main-text-color);
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification.success {
+    border-color: var(--success-color);
+}
+
+.notification.error {
+    border-color: var(--error-color);
+}
+
+.notification i {
+    margin-right: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+        animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        transform: scale3d(.9, .9, .9);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(.97, .97, .97);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+    color: var(--main-text-color);
+    border-top: 1px solid #ddd;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer .footer-links {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer .footer-links a {
+    margin: 10px 0;
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+footer .footer-links a:hover {
+    background: var(--accent-color);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.link-button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    animation: fadeIn 2s;
+}
+
+.link-button i {
+    margin-right: 10px;
+}
+
+   .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            overflow-x: hidden;
+            transition: width 0.5s ease;
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: #000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: ##fff;
+        }
+
+        .sidebar a .icon {
+            margin-right: 10px;
+        }
+
+        .sidebar a.selected::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #00f;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .sidebar .logo img {
+            display: block;
+            margin: 0 auto 20px;
+border-radius: 10px;
+            width: 80px;
+            height: auto;
+        }
+
+        .sidebar .subtitle {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #000;
+font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #d63384, #6f42c1, #ff69b4);
+    -webkit-background-clip: text;
+    color: transparent
+        }
+    </style>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
+    const formSection = document.querySelector(".form-section");
+    const notificationSection = document.createElement("div");
+    const MAX_CHAR_LIMIT = 1024;
+
+    function checkFieldLength() {
+        const inputFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+        let errors = [];
+        
+        inputFields.forEach(field => {
+            if (field.value.length > MAX_CHAR_LIMIT) {
+                errors.push(`Le champ "${field.name}" dépasse les ${MAX_CHAR_LIMIT} caractères.`);
+            }
+        });
+        
+        if (errors.length > 0) {
+            showNotification("error", errors.join('<br>'));
+        } else {
+            removeNotification();
+        }
+    }
+
+    const inputFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    inputFields.forEach(field => {
+        field.addEventListener('input', checkFieldLength);
+    });
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        let errors = [];
+        for (const [key, value] of Object.entries(data)) {
+            if (value.length > MAX_CHAR_LIMIT) {
+                errors.push(`Le champ "${key}" dépasse les ${MAX_CHAR_LIMIT} caractères.`);
+            }
+        }
+        
+        if (errors.length > 0) {
+            showNotification("error", errors.join('<br>'));
+            return;
+        }
+
+        const embed = {
+            author: {
+                name: "Système de Candidature",
+                icon_url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571"
+            },
+            title: "Nouvelle Candidature - Mafia",
+            description: "Ce message doit être traité rapidement.",
+            color: 2424576,
+            thumbnail: {
+                url: "https://media.discordapp.net/attachments/1236739035456868362/1258833072795684884/L.png?ex=66897b28&is=668829a8&hm=a6ad5f46049e531b40c19024eb9f17bb410bc60e6e574a0ebfb65ad02519fb37&=&format=webp&quality=lossless&width=571&height=571"
+            },
+            fields: [
+                { name: "Nom de la mafia", value: data.company_name, inline: true },
+                { name: "Utilisateur Discord et Roblox", value: data.discord_roblox_user, inline: true },
+                { name: "Secteur de la mafia", value: data.company_address, inline: true },
+                { name: "Secteur d'activité", value: data.industry, inline: true },
+                { name: "Description", value: data.description, inline: false },
+                { name: "Capital de départ", value: data.initial_capital, inline: true },
+                { name: "Source du capital", value: data.capital_source, inline: true },
+                { name: "Nombre de membres prévus", value: data.jobs_planned, inline: true },
+                { name: "Nombre de grades disponibles", value: data.available_positions, inline: true },
+                { name: "Détails supplémentaires", value: data.additional_details, inline: false }
+            ],
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            const response = await fetch("https://discord.com/api/webhooks/1258486112293228654/tKCHcjpdVjZavq-mbx79n5GSteoEYehlAbOVJJ8i1O0RtQqVjyeraEfnR_xtbchkQdg9", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ embeds: [embed] })
+            });
+
+            if (response.ok) {
+                showNotification("success", "Votre candidature a été envoyée avec succès !");
+                form.reset();
+                showReturnButton();
+            } else {
+                showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
+            }
+        } catch (error) {
+            showNotification("error", "Erreur lors de l'envoi de votre candidature. Veuillez réessayer.");
+        }
+    });
+
+    function showNotification(type, message) {
+        let notification = document.querySelector('.notification');
+        if (!notification) {
+            notification = document.createElement("div");
+            notification.className = `notification ${type}`;
+            document.body.appendChild(notification);
+        } else {
+            notification.className = `notification ${type}`;
+        }
+        notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+        notification.style.display = "flex";
+    }
+
+    function removeNotification() {
+        const notification = document.querySelector('.notification');
+        if (notification) {
+            notification.style.display = "none";
+        }
+    }
+
+    function showReturnButton() {
+        formSection.style.display = "none";
+        notificationSection.className = "section";
+        notificationSection.innerHTML = `
+            <h2><i class="fas fa-check-circle"></i> Candidature envoyée</h2>
+            <p>Merci pour votre candidature. Une réponse sera envoyée sous 72 heures. Vous pouvez retourner à la page d'accueil en cliquant sur le bouton ci-dessous.</p>
+            <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
+        `;
+        document.querySelector(".container").appendChild(notificationSection);
+    }
+});
+
+    function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="sidebar" class="sidebar animate__animated animate__fadeInLeft">
+        <div class="logo"><img src="https://media.discordapp.net/attachments/1258410560194740254/1261785296039710873/L.png?ex=669438a1&is=6692e721&hm=3cc72797b058092ce0aa86b2b79f2835f0ed51a4f1daccb9f4fc43af9300070a&" alt="LiveCity Logo"></div>
+        <div class="subtitle">LIFECITY</div>
+        <a href="apply-lapd.html" class="nav-link"><i class="fas fa-shield-alt icon"></i> Rejoindre la LAPD</a>
+        <a href="apply-lafd.html" class="nav-link"><i class="fas fa-fire-alt icon"></i> Rejoindre la LAFD</a>
+        <a href="apply-ladot.html" class="nav-link"><i class="fas fa-road icon"></i> Rejoindre la LADOT</a>
+    </div>
+
+    <div class="navbar">
+        <div class="logo">LIFECITY</div>
+        <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+    </div>
+</div>
+   
+       <div class="container">
+   
+    <header>
+        <h1>Postuler pour créer sa mafia</h1>
+        <p>Rejoignez l'équipe et participer à l'amélioration de LifeCity</p>
+    </header>
+
+        <div class="section">
+            <h2><i class="fas fa-briefcase"></i> Détails du formulaire</h2>
+            <div class="job-details">
+                <img src="https://images.app.goo.gl/AiQmkLrpEwaowM8c8" alt="Logo LifeCity">
+                <div class="content">
+                    <p><strong>Nom du formulaire :</strong> Candidature pour la création de mafia</p>
+                    <p><strong>Informations supplémentaires :</strong> Merci de remplir sérieusement le formulaire. Toute réponse incomplète, entrainera un refus automatique.</p>
+                </div>
+            </div>
+        </div>
+<div class="form-section">
+    <h2><i class="fas fa-file-alt"></i> Formulaire de candidature</h2>
+    <form>
+        <!-- Première section -->
+        <div class="form-group">
+            <label for="company_name">Nom de la mafia :</label>
+            <input type="text" id="company_name" name="company_name" required>
+        </div>
+        <div class="form-group">
+            <label for="discord_roblox_user">Nom de l'utilisateur Discord et Roblox (Chef de la mafia) :</label>
+            <input type="text" id="discord_roblox_user" name="discord_roblox_user" required>
+        </div>
+        <div class="form-group">
+            <label for="company_address">Secteur de la mafia (comté de LifeCity) :</label>
+            <input type="text" id="company_address" name="company_address" required>
+        </div>
+        
+        <!-- Deuxième section -->
+        <div class="form-group">
+            <label for="industry">Secteur d'activité de la mafia :</label>
+            <input type="text" id="industry" name="industry" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description de la mafia :</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <!-- Troisième section -->
+        <div class="form-group">
+            <label for="initial_capital">Capital de départ :</label>
+            <input type="text" id="initial_capital" name="initial_capital" required>
+        </div>
+        <div class="form-group">
+            <label for="capital_source">Source du capital :</label>
+            <input type="text" id="capital_source" name="capital_source" required>
+        </div>
+        
+        <!-- Quatrième section -->
+        <div class="form-group">
+            <label for="jobs_planned">Nombre de membres prévus :</label>
+            <input type="number" id="jobs_planned" name="jobs_planned" required>
+        </div>
+        <div class="form-group">
+            <label for="available_positions">Nombre de grades disponibles :</label>
+            <input type="number" id="available_positions" name="available_positions" required>
+        </div>
+        
+        <!-- Cinquième section -->
+        <div class="form-group">
+            <label for="company_logo">Logo de la mafia :</label>
+            <input type="file" id="company_logo" name="company_logo" accept="image/*" required>
+        </div>
+        <div class="form-group">
+            <label for="additional_details">Détails supplémentaires :</label>
+            <textarea id="additional_details" name="additional_details"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="link-button">Soumettre</button>
+        </div>
+                        <div class="form-group">
+                    <a href="index.html" class="link-button"><i class="fa-solid fa-backward"></i>Retour à la page d'accueil</a>
+    </form>
+</div>
+    </div>
+    <footer>
+        <p>&copy; 2024 LIFECITY. Tous droits réservés.</p>
+        <div class="footer-links">
+            <a href="./apply-lapd.html"><i class="fas fa-briefcase"></i> Rejoindre la LAPD</a>
+            <a href="./apply-lafd.html"><i class="fas fa-briefcase"></i> Rejoindre le LAFD</a>
+            <a href="./apply-ladot.html"><i class="fas fa-briefcase"></i> Rejoindre la LADOT</a>
+
+            <a href="https://discord.gg/Dx9FJVyhT6"><i class="fab fa-discord"></i> Discord Principal</a>
+            <a href="https://discord.gg/Fp8KRNmfm2"><i class="fab fa-discord"></i> Discord Gouvernemental</a>
+        </div>
+    </footer>
+</body>
+</html>
