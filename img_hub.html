@@ -25,10 +25,13 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .file-input-container {
+        .file-input-container, .actions-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
+        }
+        .actions-container button {
+            margin: 0 5px;
         }
         input[type="file"] {
             display: none;
@@ -146,20 +149,57 @@
             height: 120px;
             animation: spin 2s linear infinite;
         }
+        .progress-bar {
+            width: 80%;
+            height: 30px;
+            background: #f3f3f3;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            width: 0;
+            background: #007BFF;
+            border-radius: 5px;
+        }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+        .dark-mode .container {
+            background-color: #444;
+            color: white;
+        }
+        .dark-mode .drag-drop-area {
+            border-color: #bbb;
+        }
+        .dark-mode .link input, .dark-mode .actions {
+            background: #555;
+        }
+        .dark-mode .modal-content {
+            background: #666;
         }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
+        <div class="progress-bar">
+            <div class="progress-bar-inner" id="progressBarInner"></div>
+        </div>
     </div>
 
     <div class="container">
         <h1>Hébergeur d'Images Local</h1>
-        <button onclick="toggleDarkMode()">Mode Sombre</button>
+        <div class="actions-container">
+            <button onclick="toggleDarkMode()">Mode Sombre</button>
+            <button onclick="downloadAllImages()">Télécharger Toutes les Images</button>
+        </div>
         <div class="file-input-container">
             <label for="fileInput"><i class="fas fa-upload"></i> Télécharger des Images</label>
             <input type="file" id="fileInput" multiple>
@@ -187,6 +227,7 @@
         const modalImg = document.getElementById('modalImg');
         const span = document.getElementsByClassName('close')[0];
         const loadingOverlay = document.getElementById('loadingOverlay');
+        const progressBarInner = document.getElementById('progressBarInner');
 
         fileInput.addEventListener('change', handleFiles);
         dragDropArea.addEventListener('dragover', handleDragOver, false);
@@ -215,8 +256,13 @@
         function processFiles(files) {
             showLoading(true);
             const filePromises = [];
+            let loaded = 0;
             for (const file of files) {
-                filePromises.push(readFile(file));
+                filePromises.push(readFile(file).then(base64Image => {
+                    loaded++;
+                    updateProgress(loaded / files.length * 100);
+                    return base64Image;
+                }));
             }
             Promise.all(filePromises).then(images => {
                 saveImages(images);
@@ -231,14 +277,14 @@
                 reader.onload = function(e) {
                     resolve(e.target.result);
                 };
+                reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
         }
 
         function saveImages(images) {
-            let existingImages = JSON.parse(localStorage.getItem('images')) || [];
-            existingImages = existingImages.concat(images);
-            localStorage.setItem('images', JSON.stringify(existingImages));
+            const existingImages = JSON.parse(localStorage.getItem('images')) || [];
+            localStorage.setItem('images', JSON.stringify([...existingImages, ...images]));
         }
 
         function displayImage(base64Image) {
@@ -247,16 +293,11 @@
 
             const img = document.createElement('img');
             img.src = base64Image;
+            img.alt = 'Image';
             img.onclick = () => openModal(base64Image);
 
             const linkContainer = document.createElement('div');
             linkContainer.className = 'link';
-
-            const imgLink = document.createElement('input');
-            imgLink.type = 'text';
-            imgLink.value = base64Image;
-            imgLink.readOnly = true;
-            imgLink.onclick = () => imgLink.select();
 
             const htmlCode = document.createElement('input');
             htmlCode.type = 'text';
@@ -287,10 +328,14 @@
             downloadIcon.className = 'fas fa-download';
             downloadIcon.onclick = () => downloadImage(base64Image);
 
+            const shareIcon = document.createElement('i');
+            shareIcon.className = 'fas fa-share-alt';
+            shareIcon.onclick = () => shareImage(base64Image);
+
             actions.appendChild(deleteIcon);
             actions.appendChild(downloadIcon);
+            actions.appendChild(shareIcon);
 
-            linkContainer.appendChild(imgLink);
             linkContainer.appendChild(htmlCode);
             linkContainer.appendChild(markdownCode);
             linkContainer.appendChild(bbCode);
@@ -304,9 +349,7 @@
         function loadImages() {
             showLoading(true);
             const images = JSON.parse(localStorage.getItem('images')) || [];
-            for (const base64Image of images) {
-                displayImage(base64Image);
-            }
+            images.forEach(displayImage);
             showLoading(false);
         }
 
@@ -339,6 +382,27 @@
             document.body.removeChild(link);
         }
 
+        function shareImage(base64Image) {
+            const shareData = {
+                title: 'Image Partagée',
+                text: 'Découvrez cette image !',
+                url: base64Image
+            };
+            navigator.share(shareData).catch(console.error);
+        }
+
+        function downloadAllImages() {
+            const zip = new JSZip();
+            const images = JSON.parse(localStorage.getItem('images')) || [];
+            images.forEach((image, index) => {
+                const base64Data = image.split(',')[1];
+                zip.file(`image${index + 1}.png`, base64Data, {base64: true});
+            });
+            zip.generateAsync({type: 'blob'}).then(content => {
+                saveAs(content, 'images.zip');
+            });
+        }
+
         function openModal(base64Image) {
             modal.style.display = 'block';
             modalImg.src = base64Image;
@@ -362,7 +426,13 @@
             loadingOverlay.style.display = show ? 'flex' : 'none';
         }
 
+        function updateProgress(value) {
+            progressBarInner.style.width = value + '%';
+        }
+
         window.onload = loadImages;
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </body>
 </html>
