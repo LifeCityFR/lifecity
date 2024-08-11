@@ -61,16 +61,23 @@
     <script>
         async function fetchShopItems() {
             try {
+                console.log('Tentative de récupération des articles...');
                 const response = await fetch('https://fortnite-api.com/v2/shop');
-                const data = await response.json();
-
-                if (!response.ok || !data.data) {
-                    throw new Error('Erreur dans la récupération des données de la boutique');
+                
+                if (!response.ok) {
+                    throw new Error('Réponse réseau non valide');
                 }
 
-                const dailyItems = data.data.daily.entries;
-                const featuredItems = data.data.featured.entries;
-                const items = [...dailyItems, ...featuredItems]; // Combine daily and featured items
+                const data = await response.json();
+                console.log('Données récupérées:', data);
+
+                if (!data.data || (!data.data.daily && !data.data.featured)) {
+                    throw new Error('Structure de données inattendue');
+                }
+
+                const dailyItems = data.data.daily ? data.data.daily.entries : [];
+                const featuredItems = data.data.featured ? data.data.featured.entries : [];
+                const items = [...dailyItems, ...featuredItems];
 
                 const shopContainer = document.getElementById('shop-items');
                 shopContainer.innerHTML = ''; // Nettoyer la zone
