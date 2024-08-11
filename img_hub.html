@@ -71,7 +71,7 @@
                 const data = await response.json();
                 console.log('Données récupérées:', data);
 
-                if (!data.data || (!data.data.daily && !data.data.featured)) {
+                if (!data.data) {
                     throw new Error('Structure de données inattendue');
                 }
 
@@ -82,23 +82,30 @@
                 const shopContainer = document.getElementById('shop-items');
                 shopContainer.innerHTML = ''; // Nettoyer la zone
 
-                items.forEach(entry => {
-                    entry.items.forEach(item => {
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'item';
-                        itemElement.innerHTML = `
-                            <img src="${item.images.icon}" alt="${item.name}">
-                            <h2>${item.name}</h2>
-                            <p>Rareté: ${item.rarity.displayValue}</p>
-                            <p>Prix: ${entry.finalPrice} V-Bucks</p>
-                        `;
-                        shopContainer.appendChild(itemElement);
-                    });
-                });
-
                 if (items.length === 0) {
                     document.getElementById('error-message').innerText = "Aucun article n'est disponible dans la boutique aujourd'hui.";
+                    return;
                 }
+
+                items.forEach(entry => {
+                    console.log('Traitement de l\'entrée:', entry);
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            console.log('Traitement de l\'article:', item);
+                            const itemElement = document.createElement('div');
+                            itemElement.className = 'item';
+                            itemElement.innerHTML = `
+                                <img src="${item.images.icon}" alt="${item.name}">
+                                <h2>${item.name}</h2>
+                                <p>Rareté: ${item.rarity.displayValue}</p>
+                                <p>Prix: ${entry.finalPrice} V-Bucks</p>
+                            `;
+                            shopContainer.appendChild(itemElement);
+                        });
+                    } else {
+                        console.warn('Aucun article trouvé pour cette entrée:', entry);
+                    }
+                });
 
             } catch (error) {
                 console.error('Erreur lors du chargement des articles:', error);
