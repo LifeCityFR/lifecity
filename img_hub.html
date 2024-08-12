@@ -1,121 +1,526 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Fortnite</title>
+    <title>Cosmétiques Fortnite</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Font (Heaving Now-like) -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Oswald', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
             margin: 0;
             padding: 20px;
-            text-align: center;
         }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         h1 {
-            color: #333;
-        }
-        .item-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .item {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 10px;
-            padding: 10px;
-            width: 200px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .item img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .item h2 {
-            font-size: 18px;
-            color: #333;
-            margin: 10px 0;
-        }
-        .item p {
-            font-size: 16px;
-            color: #555;
-            margin: 5px 0;
-        }
-        #error-message {
-            color: red;
+            color: #ffffff;
             font-weight: bold;
         }
-    </style>
-</head>
-<body>
 
-    <h1>Boutique Fortnite - Aujourd'hui</h1>
-    <div id="error-message"></div>
-    <div class="item-container" id="shop-items">
-        <!-- Les articles seront insérés ici -->
-    </div>
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ff6600;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-    <script>
-        async function fetchShopItems() {
-            try {
-                console.log('Tentative de récupération des articles...');
-                const response = await fetch('https://fortnite-api.com/v2/shop');
-                
-                if (!response.ok) {
-                    throw new Error('Réponse réseau non valide');
-                }
+        p {
+            color: #bbbbbb;
+        }
 
-                const data = await response.json();
-                console.log('Données récupérées:', data);
+        .search-container {
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
 
-                if (!data.data) {
-                    throw new Error('Structure de données inattendue');
-                }
+        .search-container input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+        }
 
-                const dailyItems = data.data.daily ? data.data.daily.entries : [];
-                const featuredItems = data.data.featured ? data.data.featured.entries : [];
-                const items = [...dailyItems, ...featuredItems];
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #1c1c1c;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
 
-                const shopContainer = document.getElementById('shop-items');
-                shopContainer.innerHTML = ''; // Nettoyer la zone
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+        }
 
-                if (items.length === 0) {
-                    document.getElementById('error-message').innerText = "Aucun article n'est disponible dans la boutique aujourd'hui.";
-                    return;
-                }
+        .autocomplete-item:hover {
+            background-color: #333;
+        }
 
-                items.forEach(entry => {
-                    console.log('Traitement de l\'entrée:', entry);
-                    if (entry.items) {
-                        entry.items.forEach(item => {
-                            console.log('Traitement de l\'article:', item);
-                            const itemElement = document.createElement('div');
-                            itemElement.className = 'item';
-                            itemElement.innerHTML = `
-                                <img src="${item.images.icon}" alt="${item.name}">
-                                <h2>${item.name}</h2>
-                                <p>Rareté: ${item.rarity.displayValue}</p>
-                                <p>Prix: ${entry.finalPrice} V-Bucks</p>
-                            `;
-                            shopContainer.appendChild(itemElement);
-                        });
-                    } else {
-                        console.warn('Aucun article trouvé pour cette entrée:', entry);
-                    }
-                });
+        .cosmetic-category {
+            margin: 20px 0;
+        }
 
-            } catch (error) {
-                console.error('Erreur lors du chargement des articles:', error);
-                document.getElementById('error-message').innerText = "Une erreur s'est produite lors du chargement de la boutique. Veuillez réessayer plus tard.";
+        .cosmetic-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .cosmetic-item {
+            background-color: #1c1c1c;
+            border-radius: 10px;
+            overflow: hidden;
+            min-width: 150px;
+            scroll-snap-align: start;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .cosmetic-item:hover {
+            transform: scale(1.05);
+        }
+
+        .cosmetic-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .cosmetic-item p {
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #ffffff;
+        }
+
+        .cosmetic-item .favorite-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6600;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .cosmetic-item.favorited .favorite-icon {
+            display: block;
+            transform: scale(1.3);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #555555;
+        }
+
+        /* Pop-up styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            color: #fff;
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .modal-content h2 {
+            text-transform: uppercase;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Filter and Favorites Section */
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+        }
+
+        .favorites-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .category-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-title .category-count {
+            font-size: 0.9em;
+            color: #ff6600;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
             }
         }
 
-        // Charger les articles de la boutique lors du chargement de la page
-        fetchShopItems();
-    </script>
+        .cosmetic-item,
+        .modal-content {
+            animation: fadeIn 0.5s;
+        }
+    </style>
+</head>
 
+<body>
+    <header>
+        <h1><i class="fas fa-meteor"></i> Cosmétiques Fortnite</h1>
+        <p>Découvrez tous les cosmétiques disponibles, triés par catégorie.</p>
+    </header>
+
+    <!-- Search and Filter Bar -->
+    <div class="search-container mb-4">
+        <div class="input-group">
+            <input type="text" id="search-bar" class="form-control" placeholder="Rechercher un cosmétique...">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <div class="autocomplete-list" id="autocomplete-list"></div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-container">
+        <div>
+            <label for="rarity-filter">Filtrer par rareté:</label>
+            <select id="rarity-filter" class="form-control">
+                <option value="">Tous</option>
+                <option value="common">Commun</option>
+                <option value="uncommon">Peu commun</option>
+                <option value="rare">Rare</option>
+                <option value="epic">Épique</option>
+                <option value="legendary">Légendaire</option>
+            </select>
+        </div>
+        <div>
+            <label for="type-filter">Filtrer par type:</label>
+            <select id="type-filter" class="form-control">
+                <option value="">Tous</option>
+                <option value="outfit">Skin</option>
+                <option value="backbling">Back Bling</option>
+                <option value="emote">Emote</option>
+                <option value="harvesting tool">Pickaxe</option>
+                <option value="glider">Glider</option>
+                <option value="wrap">Wrap</option>
+                <option value="loading screen">Loading Screen</option>
+                <option value="music">Music</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Favorites Section -->
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-star"></i> Favoris <span class="category-count" id="favorites-count">(0)</span></h2>
+        <div class="favorites-container" id="favorites">
+            <!-- Les cosmétiques favoris seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <!-- Cosmetic Categories -->
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-tshirt"></i> Skins <span class="category-count" id="skins-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="skins">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-backpack"></i> Back Blings <span class="category-count" id="backblings-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="backblings">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-walking"></i> Emotes <span class="category-count" id="emotes-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="emotes">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-hammer"></i> Pickaxes <span class="category-count" id="pickaxes-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="pickaxes">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-parachute-box"></i> Gliders <span class="category-count" id="gliders-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="gliders">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-palette"></i> Wraps <span class="category-count" id="wraps-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="wraps">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-image"></i> Loading Screens <span class="category-count" id="loading-screens-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="loading-screens">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <section class="cosmetic-category">
+        <h2><i class="fas fa-music"></i> Music <span class="category-count" id="music-count">(0)</span></h2>
+        <div class="cosmetic-grid" id="music">
+            <!-- Les cosmétiques seront ajoutés ici par JavaScript -->
+        </div>
+    </section>
+
+    <!-- Pop-up Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modal-img" src="" alt="Cosmetic Image">
+            <h2 id="modal-name"></h2>
+            <p id="modal-description"></p>
+            <p id="modal-type"></p>
+            <p id="modal-rarity"></p>
+            <p id="modal-introduction"></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Fortnite Cosmetics. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let allCosmetics = [];
+        let favorites = [];
+
+        async function fetchCosmetics() {
+            const response = await fetch('https://fortnite-api.com/v2/cosmetics/br');
+            const data = await response.json();
+            return data.data;
+        }
+
+        function createCosmeticElement(item) {
+            const cosmeticElement = document.createElement('div');
+            cosmeticElement.className = 'cosmetic-item';
+            cosmeticElement.innerHTML = `
+                <img src="${item.images.icon}" alt="${item.name}">
+                <p>${item.name}</p>
+                <div class="favorite-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+            `;
+            cosmeticElement.addEventListener('click', () => showModal(item));
+            cosmeticElement.querySelector('.favorite-icon').addEventListener('click', (event) => {
+                event.stopPropagation();
+                toggleFavorite(item);
+            });
+            return cosmeticElement;
+        }
+
+        function displayCosmetics(cosmetics, categoryId) {
+            const container = document.getElementById(categoryId);
+            container.innerHTML = '';
+            cosmetics.forEach(item => {
+                const cosmeticElement = createCosmeticElement(item);
+                if (favorites.some(fav => fav.id === item.id)) {
+                    cosmeticElement.classList.add('favorited');
+                }
+                container.appendChild(cosmeticElement);
+            });
+            updateCategoryCount(categoryId, cosmetics.length);
+        }
+
+        function updateCategoryCount(categoryId, count) {
+            const countElement = document.getElementById(`${categoryId}-count`);
+            countElement.textContent = `(${count})`;
+        }
+
+        function showModal(item) {
+            document.getElementById('modal-img').src = item.images.icon;
+            document.getElementById('modal-name').textContent = item.name;
+            document.getElementById('modal-description').textContent = item.description || 'Aucune description disponible.';
+            document.getElementById('modal-type').textContent = `Type: ${item.type.displayValue}`;
+            document.getElementById('modal-rarity').textContent = `Rareté: ${item.rarity.displayValue}`;
+            document.getElementById('modal-introduction').textContent = `Introduit dans: Chapitre ${item.introduction.chapter}, Saison ${item.introduction.season}`;
+            document.getElementById('myModal').style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none";
+        }
+
+        document.querySelector('.close').addEventListener('click', closeModal);
+        window.addEventListener('click', (event) => {
+            if (event.target == document.getElementById('myModal')) {
+                closeModal();
+            }
+        });
+
+        function toggleFavorite(item) {
+            const favoriteIndex = favorites.findIndex(fav => fav.id === item.id);
+            if (favoriteIndex !== -1) {
+                favorites.splice(favoriteIndex, 1);
+            } else {
+                favorites.push(item);
+            }
+            updateFavorites();
+        }
+
+        function updateFavorites() {
+            const favoriteContainer = document.getElementById('favorites');
+            favoriteContainer.innerHTML = '';
+            favorites.forEach(item => {
+                const cosmeticElement = createCosmeticElement(item);
+                cosmeticElement.classList.add('favorited');
+                favoriteContainer.appendChild(cosmeticElement);
+            });
+            localStorage.setItem('fortniteFavorites', JSON.stringify(favorites));
+            document.getElementById('favorites-count').textContent = `(${favorites.length})`;
+        }
+
+        function filterCosmetics() {
+            const rarity = document.getElementById('rarity-filter').value.toLowerCase();
+            const type = document.getElementById('type-filter').value.toLowerCase();
+            const filteredCosmetics = allCosmetics.filter(item => {
+                return (rarity === '' || item.rarity.value === rarity) &&
+                       (type === '' || item.type.value.toLowerCase() === type);
+            });
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'outfit'), 'skins');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'backbling'), 'backblings');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'emote'), 'emotes');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'harvesting tool'), 'pickaxes');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'glider'), 'gliders');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'wrap'), 'wraps');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'loading screen'), 'loading-screens');
+            displayCosmetics(filteredCosmetics.filter(item => item.type.value.toLowerCase() === 'music'), 'music');
+        }
+
+        function initSearchAutocomplete() {
+            const searchBar = document.getElementById('search-bar');
+            searchBar.addEventListener('input', function () {
+                const input = this.value.toLowerCase();
+                const autocompleteList = document.getElementById('autocomplete-list');
+                autocompleteList.innerHTML = '';
+                if (input) {
+                    const filteredCosmetics = allCosmetics.filter(item => item.name.toLowerCase().includes(input));
+                    filteredCosmetics.forEach(item => {
+                        const autocompleteItem = document.createElement('div');
+                        autocompleteItem.classList.add('autocomplete-item');
+                        autocompleteItem.textContent = item.name;
+                        autocompleteItem.addEventListener('click', () => {
+                            searchBar.value = item.name;
+                            autocompleteList.innerHTML = '';
+                            showModal(item);
+                        });
+                        autocompleteList.appendChild(autocompleteItem);
+                    });
+                }
+            });
+        }
+
+        async function init() {
+            allCosmetics = await fetchCosmetics();
+            favorites = JSON.parse(localStorage.getItem('fortniteFavorites')) || [];
+            filterCosmetics();
+            initSearchAutocomplete();
+            updateFavorites();
+        }
+
+        document.getElementById('rarity-filter').addEventListener('change', filterCosmetics);
+        document.getElementById('type-filter').addEventListener('change', filterCosmetics);
+
+        init();
+    </script>
 </body>
+
 </html>
