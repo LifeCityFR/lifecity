@@ -6,7 +6,6 @@
     <title>Liste des utilisateurs sanctionnés</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Assault:wght@400&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -21,52 +20,58 @@
             margin: 0 auto;
         }
 
-.bubble {
-    background-color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    overflow: hidden; /* Assure que le contenu ne dépasse pas de la bulle */
-    position: relative;
-}
+        .bubble {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden; /* Assure que le contenu ne dépasse pas de la bulle */
+            position: relative;
+            color: #fff;
+        }
 
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap; /* Permet de réorganiser les éléments si nécessaire */
-    overflow: hidden; /* Assure que le contenu du header reste dans la bulle */
-}
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Permet de réorganiser les éléments si nécessaire */
+        }
 
-.header h2 {
-    font-family: 'Assault', sans-serif;
-    display: flex;
-    align-items: center;
-    flex: 1; /* Permet au titre de s'adapter à l'espace disponible */
-    margin-right: 10px;
-}
+        .header h2 {
+            font-family: 'Assault', sans-serif;
+            display: flex;
+            align-items: center;
+            flex: 1; /* Permet au titre de s'adapter à l'espace disponible */
+            margin-right: 10px;
+        }
 
-.search-box {
-    flex: 1; /* Permet à la barre de recherche de s'adapter à l'espace disponible */
-    display: flex;
-    justify-content: flex-end; /* Aligne la barre de recherche à droite */
-}
+        .header h2::before {
+            content: '←';
+            font-size: 24px;
+            margin-right: 10px;
+        }
 
-.search-box input {
-    padding: 10px;
-    width: 100%; /* S'assure que la barre de recherche prend toute la largeur disponible */
-    max-width: 300px; /* Limite la largeur maximale de la barre de recherche */
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #444;
-    color: #fff;
-}
+        .search-box {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
 
-.search-box input:focus {
-    outline: none;
-    box-shadow: 0 0 10px #f39c12;
-}
+        .search-box input {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #f39c12;
+        }
 
         .legend-section {
             margin-bottom: 20px;
@@ -78,12 +83,10 @@
         .legend-item {
             display: flex;
             align-items: center;
-            color: #fff;
             margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
             font-size: 14px;
-            animation: fadeIn 1s ease-in-out;
         }
 
         .low-legend {
@@ -102,44 +105,36 @@
             margin-right: 10px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Bulles pour les utilisateurs */
+        .user-bubble {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            background-color: #1c1c1c;
-            overflow-x: auto;
-            display: block;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-in-out;
         }
 
-        table, th, td {
-            border: 1px solid #444;
+        .user-info {
+            margin-bottom: 10px;
         }
 
-        th, td {
-            padding: 12px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #333;
-            color: white;
-        }
-
-        .low {
+        .sanction-bubble.low {
             background-color: #2ecc71;
         }
 
-        .medium {
+        .sanction-bubble.medium {
             background-color: #f39c12;
         }
 
-        .high {
+        .sanction-bubble.high {
             background-color: #e74c3c;
         }
 
-        tr:hover {
-            background-color: #444;
-            transition: background-color 0.3s ease;
+        .user-info span {
+            font-weight: bold;
+            margin-right: 5px;
         }
 
         .floater {
@@ -162,9 +157,6 @@
             }
         }
 
-        .legend-item, .header h2 {
-            animation: fadeIn 1s ease-in-out;
-        }
     </style>
 </head>
 <body>
@@ -185,27 +177,13 @@
             <div class="legend-item high-legend"><i class="fas fa-times-circle"></i> Sanction sévère (P)</div>
         </div>
 
-        <div class="sanction-log">
-            <div class="table-wrapper">
-                <table id="userTable">
-                    <thead>
-                        <tr>
-                            <th>Utilisateur</th>
-                            <th>Sanction</th>
-                            <th>Durée</th>
-                            <th>Raison</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                        <!-- Utilisateurs affichés dynamiquement (users.js) -->
-                    </tbody>
-                </table>
-            </div>
+        <div class="sanction-log" id="sanctionLog">
+            <!-- Bulles des utilisateurs affichées dynamiquement -->
         </div>
     </div>
 
     <div class="floater">
-        © 2024 France RolePlay
+        © 2024 France Roleplay
     </div>
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -213,28 +191,29 @@
         fetch('users.js')
             .then(response => response.json())
             .then(data => {
-                const userTableBody = document.getElementById('userTableBody');
+                const sanctionLog = document.getElementById('sanctionLog');
                 const searchInput = document.getElementById('searchInput');
 
-                function renderTable(users) {
-                    userTableBody.innerHTML = '';
+                function renderUserBubbles(users) {
+                    sanctionLog.innerHTML = ''; // Clear previous content
                     users.forEach(user => {
-                        const row = document.createElement('tr');
+                        const bubble = document.createElement('div');
                         const durationClass = getDurationClass(user.duree);
-                        row.innerHTML = `
-                            <td>${user.username}</td>
-                            <td class="${durationClass}">${user.sanction}</td>
-                            <td class="${durationClass}">${user.duree}</td>
-                            <td>${user.raison}</td>
+                        bubble.classList.add('user-bubble', `sanction-bubble`, durationClass);
+                        bubble.innerHTML = `
+                            <div class="user-info"><span>Utilisateur:</span> ${user.username}</div>
+                            <div class="user-info"><span>Sanction:</span> ${user.sanction}</div>
+                            <div class="user-info"><span>Durée:</span> ${user.duree}</div>
+                            <div class="user-info"><span>Raison:</span> ${user.raison}</div>
                         `;
-                        userTableBody.appendChild(row);
+                        sanctionLog.appendChild(bubble);
                     });
                 }
 
                 function getDurationClass(duration) {
                     if (duration.includes('P')) return 'high';
-                    if (duration.includes('s')) return 'medium';
-                    if (duration.includes('j')) return 'low';
+                    if (duration.includes('S')) return 'medium';
+                    if (duration.includes('J')) return 'low';
                     return '';
                 }
 
@@ -244,12 +223,13 @@
                         user.username.toLowerCase().includes(query) ||
                         user.raison.toLowerCase().includes(query)
                     );
-                    renderTable(filteredUsers);
+                    renderUserBubbles(filteredUsers);
                 }
 
                 searchInput.addEventListener('input', filterUsers);
 
-                renderTable(data);
+                // Render the bubbles on page load
+                renderUserBubbles(data);
             })
             .catch(error => console.error('Erreur de chargement des utilisateurs :', error));
     </script>
