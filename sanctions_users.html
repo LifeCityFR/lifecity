@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des utilisateurs sanctionnés</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assault:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+.bubble {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden; /* Assure que le contenu ne dépasse pas de la bulle */
+    position: relative;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Permet de réorganiser les éléments si nécessaire */
+    overflow: hidden; /* Assure que le contenu du header reste dans la bulle */
+}
+
+.header h2 {
+    font-family: 'Assault', sans-serif;
+    display: flex;
+    align-items: center;
+    flex: 1; /* Permet au titre de s'adapter à l'espace disponible */
+    margin-right: 10px;
+}
+
+.search-box {
+    flex: 1; /* Permet à la barre de recherche de s'adapter à l'espace disponible */
+    display: flex;
+    justify-content: flex-end; /* Aligne la barre de recherche à droite */
+}
+
+.search-box input {
+    padding: 10px;
+    width: 100%; /* S'assure que la barre de recherche prend toute la largeur disponible */
+    max-width: 300px; /* Limite la largeur maximale de la barre de recherche */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #444;
+    color: #fff;
+}
+
+.search-box input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #f39c12;
+}
+
+        .legend-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .low-legend {
+            background-color: #2ecc71;
+        }
+
+        .medium-legend {
+            background-color: #f39c12;
+        }
+
+        .high-legend {
+            background-color: #e74c3c;
+        }
+
+        .legend-item i {
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #1c1c1c;
+            overflow-x: auto;
+            display: block;
+        }
+
+        table, th, td {
+            border: 1px solid #444;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        .low {
+            background-color: #2ecc71;
+        }
+
+        .medium {
+            background-color: #f39c12;
+        }
+
+        .high {
+            background-color: #e74c3c;
+        }
+
+        tr:hover {
+            background-color: #444;
+            transition: background-color 0.3s ease;
+        }
+
+        .floater {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .legend-item, .header h2 {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bubble">
+            <div class="header">
+                <h2>Liste des utilisateurs sanctionnés</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Rechercher par utilisateur ou raison...">
+                </div>
+            </div>
+        </div>
+
+        <div class="legend-section">
+            <h3>Légende des sanctions</h3>
+            <div class="legend-item low-legend"><i class="fas fa-check-circle"></i> Sanction légère (J)</div>
+            <div class="legend-item medium-legend"><i class="fas fa-exclamation-circle"></i> Sanction moyenne (S)</div>
+            <div class="legend-item high-legend"><i class="fas fa-times-circle"></i> Sanction sévère (P)</div>
+        </div>
+
+        <div class="sanction-log">
+            <div class="table-wrapper">
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>Utilisateur</th>
+                            <th>Sanction</th>
+                            <th>Durée</th>
+                            <th>Raison</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Utilisateurs affichés dynamiquement (users.js) -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="floater">
+        © 2024 France RolePlay
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        fetch('users.js')
+            .then(response => response.json())
+            .then(data => {
+                const userTableBody = document.getElementById('userTableBody');
+                const searchInput = document.getElementById('searchInput');
+
+                function renderTable(users) {
+                    userTableBody.innerHTML = '';
+                    users.forEach(user => {
+                        const row = document.createElement('tr');
+                        const durationClass = getDurationClass(user.duree);
+                        row.innerHTML = `
+                            <td>${user.username}</td>
+                            <td class="${durationClass}">${user.sanction}</td>
+                            <td class="${durationClass}">${user.duree}</td>
+                            <td>${user.raison}</td>
+                        `;
+                        userTableBody.appendChild(row);
+                    });
+                }
+
+                function getDurationClass(duration) {
+                    if (duration.includes('P')) return 'high';
+                    if (duration.includes('s')) return 'medium';
+                    if (duration.includes('j')) return 'low';
+                    return '';
+                }
+
+                function filterUsers() {
+                    const query = searchInput.value.toLowerCase();
+                    const filteredUsers = data.filter(user => 
+                        user.username.toLowerCase().includes(query) ||
+                        user.raison.toLowerCase().includes(query)
+                    );
+                    renderTable(filteredUsers);
+                }
+
+                searchInput.addEventListener('input', filterUsers);
+
+                renderTable(data);
+            })
+            .catch(error => console.error('Erreur de chargement des utilisateurs :', error));
+    </script>
+</body>
+</html>
